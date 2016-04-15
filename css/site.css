@@ -1,0 +1,107 @@
+body{
+	color:#373a3c;
+	background-color: #f9f9f9;
+}
+footer{
+	display: none;
+	background-color: #f5f5f5;
+}
+.bg-primary {
+    background-color: #2196F3!important;
+}
+.navbar-fixed-top {
+	z-index: 1030;
+	box-shadow: 0 2px 3px rgba(0,0,0,.2);
+}
+.navbar-dark .navbar-brand, .navbar-dark .navbar-brand:focus, .navbar-dark .navbar-brand:hover {
+    color: #fff;
+}
+.navbar-brand {
+    font-size: 1.6rem;
+    font-weight: 500;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 1rem;
+}
+.navbar-brand i.material-icons {
+    position: relative;
+    top: -1px;
+    font-size: 36px;
+}
+.material-icons {
+    vertical-align: middle;
+}
+.layout-content {
+	padding-top: 58px;
+	padding-left: 250px;
+}
+.sidebar{
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 250px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1029;
+    color: rgba(0,0,0,.54);
+    font-size: 15px;
+	background: #fff;
+	border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: #e5e5e5;
+    padding-top: 65px;
+    box-shadow: 0 2px 3px rgba(0,0,0,.2);
+}
+.sidebar-heading{
+	color: #b7bdc1;
+	font-weight: 500;
+    font-size: .9rem;
+    font-family: Roboto,"Helvetica Neue",Arial,Helvetica,sans-serif;
+    text-transform: uppercase;
+    letter-spacing: normal;
+    line-height: normal;
+    padding: 5px 18.75px;
+    margin: 0;
+}
+.sidebar-menu{
+	margin-bottom: 18.75px;
+    padding: 0;
+    list-style: none;
+}
+.sidebar-menu-item {
+    position: relative;
+    overflow: hidden;
+}
+.sidebar-menu-button {
+    color: rgba(0,0,0,.54);
+    text-decoration: none;
+    display: block;
+    font-weight: 400;
+    line-height: 42px;
+    padding-left: 18.75px;
+    font-size: 15px;
+}
+.sidebar-menu-icon {
+    color: #818a91;
+    vertical-align: middle;
+    width: 31.5px;
+    font-size: 24px;
+    display: inline-block;
+    line-height: normal;
+    position: relative;
+}
+.sidebar-menu-label {
+    position: absolute;
+    right: 18.75px;
+    margin-top: 13px;
+    padding: .2rem .3rem;
+    font-size: .75rem;
+}
+.sidebar .active>.sidebar-menu-button, .sidebar .active>.sidebar-menu-button .sidebar-menu-icon {
+    color: #2196F3;
+}
+a:hover, a:hover .sidebar-menu-icon {
+	color: black;
+	text-decoration: none;
+}
