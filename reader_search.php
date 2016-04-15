@@ -33,7 +33,7 @@ switch ($searchBy) {
 <body>
 <!-- // Navbar -->
 <nav class="navbar navbar-dark navbar-full bg-primary navbar-fixed-top">
-    <a class="navbar-brand" href="index.html"><i class="material-icons md-48">school</i> Library</a>
+    <a class="navbar-brand" href="index.php"><i class="material-icons md-48">school</i> Library</a>
     <div class="nav navbar-nav pull-md-right">
         <a class="nav-item nav-link active">Welcome <?php echo $readerName?></a>
     </div>
@@ -133,7 +133,7 @@ switch ($searchBy) {
             
           <input name="search" type="text" class="form-control" aria-label="Search Document" placeholder="Search Document" onkeydown='if(event.keyCode==13){gosubmit();}'>
 
-          <input name="by" value="TITLE" hidden></input>
+          <input name="by" value="<?php echo $searchBy?>" hidden></input>
         </div>
         </form>
     </div>
