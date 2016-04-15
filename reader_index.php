@@ -52,7 +52,7 @@ if ($readerId != ""){
 	<!-- // End Navbar -->
 	
 	<!-- // Content -->
-	<div class="container layout-content">
+	<div class="container p-t-2">
 		<div class="card center-block m-t-3 text-md-center" style="max-width: 30rem;">
 			<div class="card-header bg-success">
 				<h1 class="card-title">Reader Login</h1>

@@ -34,13 +34,14 @@ footer{
 .layout-content {
 	padding-top: 58px;
 	padding-left: 250px;
+	overflow: auto;
 }
 .sidebar{
 	left: 0;
 	top: 0;
 	bottom: 0;
 	width: 250px;
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     z-index: 1029;
