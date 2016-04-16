@@ -35,6 +35,7 @@ footer{
 	padding-top: 58px;
 	padding-left: 250px;
 	overflow: auto;
+	min-height: 30rem;
 }
 .sidebar{
 	left: 0;
