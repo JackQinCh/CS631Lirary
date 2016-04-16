@@ -1,15 +1,9 @@
 <?php
 include ('session.php');
 // Get Request Data
+$docID = $_GET['docID'];
 $search = $_GET['search'];
 $searchBy = $_GET['by'];
-$by = '';
-switch ($searchBy) {
-    case 'Title': $by = 'TITLE';break;
-    case 'ID': $by = 'DOCID';break;
-    case 'Publisher': $by = 'PUBNAME';break;
-    default: $by = 'TITLE';break;
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,14 +40,14 @@ switch ($searchBy) {
     <ul class="sidebar-menu">
         <li class="sidebar-menu-item active">
             <a class="sidebar-menu-button" href="reader_index.php">
-                <i class="sidebar-menu-icon material-icons">face</i>
-                Reader
+            <i class="sidebar-menu-icon material-icons">face</i>
+            Reader
             </a>
         </li>
         <li class="sidebar-menu-item">
             <a class="sidebar-menu-button" href="admin_index.php">
-                <i class="sidebar-menu-icon material-icons">perm_identity</i>
-                Administrator
+            <i class="sidebar-menu-icon material-icons">perm_identity</i>
+            Administrator
             </a>
         </li>
     </ul>
@@ -62,23 +56,23 @@ switch ($searchBy) {
     <ul class="sidebar-menu">
         <li class="sidebar-menu-item active">
             <a href="reader.php" class="sidebar-menu-button">
-                <i class="sidebar-menu-icon material-icons">search</i>
-                Search</a>
+            <i class="sidebar-menu-icon material-icons">search</i>
+            Search</a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
-                <i class="sidebar-menu-icon material-icons">shopping_cart</i>
-                Checkout</a>
+            <i class="sidebar-menu-icon material-icons">shopping_cart</i>
+            Checkout</a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
-                <i class="sidebar-menu-icon material-icons">assignment_return</i>
-                Return</a>
+            <i class="sidebar-menu-icon material-icons">assignment_return</i>
+            Return</a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
-                <i class="sidebar-menu-icon material-icons">lock</i>
-                Reserve</a>
+            <i class="sidebar-menu-icon material-icons">lock</i>
+            Reserve</a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
@@ -87,27 +81,27 @@ switch ($searchBy) {
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
-                <i class="sidebar-menu-icon material-icons">monetization_on</i>
-                Fine
-                <span class="sidebar-menu-label label label-default">$20</span>
+            <i class="sidebar-menu-icon material-icons">monetization_on</i>
+            Fine
+            <span class="sidebar-menu-label label label-default">$20</span>
             </a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
-                <i class="sidebar-menu-icon material-icons">print</i>
-                Print Reverves
+            <i class="sidebar-menu-icon material-icons">print</i>
+            Print Reverves
             </a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
-                <i class="sidebar-menu-icon material-icons">description</i>
-                Print Publisher Docs
+            <i class="sidebar-menu-icon material-icons">description</i>
+            Print Publisher Docs
             </a>
         </li>
         <li class="sidebar-menu-item">
             <a href="reader_logout.php" class="sidebar-menu-button">
-                <i class="sidebar-menu-icon material-icons">power_settings_new</i>
-                Quit
+            <i class="sidebar-menu-icon material-icons">power_settings_new</i>
+            Quit
             </a>
         </li>
     </ul>
@@ -116,70 +110,15 @@ switch ($searchBy) {
 
 <!-- // Content -->
 <div class="container layout-content">
-    <ol class="breadcrumb m-t-1">
-        <li class="active">Search</li>
-    </ol>
-<!-- Search Bar -->
-    <div class="m-t-1 m-b-1">
-        <form action="" method="get">
-        <div class="input-group">
-          <div class="input-group-btn">
-            <button id="byDropdown" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <?php echo $searchBy?>
-            </button>
-            <div class="dropdown-menu">
-              <button class="dropdown-item active" type="button" >Title</button>
-              <button class="dropdown-item" type="button" >ID</button>
-              <button class="dropdown-item" type="button" >Publisher</button>
-            </div>
-          </div>
-            
-          <input name="search" type="text" class="form-control" aria-label="Search Document" placeholder="Search Document" value="<?php echo $search?>" onkeydown='if(event.keyCode==13){gosubmit();}'>
-
-          <input name="by" value="<?php echo $searchBy?>" hidden></input>
-        </div>
-        </form>
+<!-- // Breadcrumb -->
+	<ol class="breadcrumb m-t-1">
+		<li><a href="<?php echo "reader_search.php?search=".$search."&by=".$searchBy ?>">Search</a></li>
+		<li class="active">Detail</li>
+	</ol>
+<!-- // End Breadcrumb -->
+    <div class="m-t-1">
+		
     </div>
-<!-- End Search Bar -->
-
-<!-- Search List -->
-<?php
-
-$error = "";
-$sql = '';
-if ($search != ""){
-    // Create connection
-    $conn = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    //Query
-    if ($by == 'DOCID') {
-        $id = (int)$search;
-        $sql = "SELECT D.DOCID, D.TITLE, D.PDATE, P.PUBNAME 
-                FROM DOCUMENT D, PUBLISHER P
-                WHERE D.PUBLISHERID = P.PUBLISHERID AND $by = $id";
-    }else{
-        $sql = "SELECT D.DOCID, D.TITLE, D.PDATE, P.PUBNAME  
-                FROM DOCUMENT D, PUBLISHER P 
-                WHERE D.PUBLISHERID = P.PUBLISHERID AND $by LIKE '%$search%'";
-    }
-    $result = $conn->query($sql);
-    $conn->close();
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()){
-            echo "<div class='card card-block search-list-item' onclick=window.location.href='reader_search_detail.php?docID=".$row['DOCID']."&search=".$search."&by=".$searchBy."'>
-            <h4 class='card-title'>".$row['TITLE']."</h4>
-            <p class='card-subtitle text-muted'>".$row['PDATE']." Published by <u><em>".$row['PUBNAME']."</em></u></p></div>";
-        } 
-    }else{
-        echo "<div class='alert alert-danger' role='alert'>
-        <strong>Oops!</strong> No document found. Try another keyword!</div>";
-    }
-}
-?>
-<!-- End Search List -->
 </div>
 <!-- // End Content -->
 
@@ -205,5 +144,7 @@ $('button.dropdown-item').click(function () {
 });
 
 </script>
+
+
 </body>
 </html>

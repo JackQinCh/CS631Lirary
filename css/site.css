@@ -106,3 +106,8 @@ a:hover, a:hover .sidebar-menu-icon {
 	color: black;
 	text-decoration: none;
 }
+.search-list-item:hover,  .search-list-item:hover>.card-subtitle{
+	background-color: #2196F3;
+	color: white;
+	cursor: pointer;
+}

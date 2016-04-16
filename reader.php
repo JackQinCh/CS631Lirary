@@ -111,18 +111,18 @@ include('session.php');
         <div class="input-group">
           <div class="input-group-btn">
             <button id="byDropdown" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Document Title
+              Title
             </button>
             <div class="dropdown-menu">
-              <button class="dropdown-item active" type="button" >Document Title</button>
-              <button class="dropdown-item" type="button" >Document ID</button>
+              <button class="dropdown-item active" type="button" >Title</button>
+              <button class="dropdown-item" type="button" >ID</button>
               <button class="dropdown-item" type="button" >Publisher</button>
             </div>
           </div>
 
           <input name="search" type="text" class="form-control" aria-label="Search Document" placeholder="Search Document" onkeydown='if(event.keyCode==13){gosubmit();}'>
 
-          <input name="by" id="searchBy" value="Document Title" hidden></input>
+          <input name="by" id="searchBy" value="Title" hidden></input>
         </div>
         </form>
     </div>
