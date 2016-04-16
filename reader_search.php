@@ -145,7 +145,6 @@ switch ($searchBy) {
 <!-- Search List -->
 <?php
 
-$error = "";
 $sql = '';
 if ($search != ""){
     // Create connection
@@ -156,10 +155,9 @@ if ($search != ""){
     }
     //Query
     if ($by == 'DOCID') {
-        $id = (int)$search;
         $sql = "SELECT D.DOCID, D.TITLE, D.PDATE, P.PUBNAME 
                 FROM DOCUMENT D, PUBLISHER P
-                WHERE D.PUBLISHERID = P.PUBLISHERID AND $by = $id";
+                WHERE D.PUBLISHERID = P.PUBLISHERID AND $by = '$search'";
     }else{
         $sql = "SELECT D.DOCID, D.TITLE, D.PDATE, P.PUBNAME  
                 FROM DOCUMENT D, PUBLISHER P 
@@ -167,11 +165,20 @@ if ($search != ""){
     }
     $result = $conn->query($sql);
     $conn->close();
+    
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()){
+            $label = '';
+            if (strpos($row['DOCID'], 'B') !== false) {
+                $label = "<span class='label label-success searchlist-label'>book</span>";
+            }elseif (strpos($row['DOCID'], 'J') !== false) {
+                $label = "<span class='label label-info searchlist-label'>journal</span>";
+            }elseif (strpos($row['DOCID'], 'P') !== false) {
+                $label = "<span class='label label-warning searchlist-label'>proceeding</span>";
+            }
             echo "<div class='card card-block search-list-item' onclick=window.location.href='reader_search_detail.php?docID=".$row['DOCID']."&search=".$search."&by=".$searchBy."'>
-            <h4 class='card-title'>".$row['TITLE']."</h4>
-            <p class='card-subtitle text-muted'>".$row['PDATE']." Published by <u><em>".$row['PUBNAME']."</em></u></p></div>";
+            <h4 class='card-title'>".$row['TITLE'].$label.
+            "</h4><p class='card-subtitle text-muted'>".$row['PDATE']." Published by <u><em>".$row['PUBNAME']."</em></u></p></div>";
         } 
     }else{
         echo "<div class='alert alert-danger' role='alert'>

@@ -4,6 +4,113 @@ include ('session.php');
 $docID = $_GET['docID'];
 $search = $_GET['search'];
 $searchBy = $_GET['by'];
+
+function bookDetail($id='')
+{
+	// Create connection
+    $conn = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    //Query Authors
+    $authors = '';
+    $sql = "SELECT A.ANAME
+    		FROM AUTHOR A, WRITES W
+    		WHERE W.DOCID = '$id' AND W.AUTHORID = A.AUTHORID";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+    	while ($row = $result->fetch_assoc()){
+    		$authors .= $row['ANAME']." / ";
+    	}
+    }
+    //Query Book Detail
+    $sql = "SELECT D.DOCID, D.TITLE, D.PDATE, P.PUBNAME, P.ADDRESS, B.ISBN 
+    		FROM DOCUMENT D, PUBLISHER P, BOOK B
+    		WHERE D.DOCID = B.DOCID AND D.PUBLISHERID = P.PUBLISHERID AND D.DOCID = '$id'";
+    $result = $conn->query($sql);
+    if ($result->num_rows == 1) {
+    	$row = $result->fetch_assoc();
+    	echo 	"<div class='card'>
+    				<div class='card-block'>
+    					<h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE']."</h4>
+    					<p class='card-text'>Publish Year: ".$row['PDATE']."</p>
+    					<p class='card-text'>Publisher: ".$row['PUBNAME']."</p>
+    					<p class='card-text'>Publisher Location: ".$row['ADDRESS']."</p>
+    					<p class='card-text'>Authors: ".$authors."</p>
+    					<p class='card-text'>ISBN: ".$row['ISBN']."</p>
+    					<a href='#'' class='btn btn-primary'>Reserve</a>
+    				</div>
+    			</div>";
+    }
+    $conn->close();
+}
+
+function journalDetail($id='')
+{
+	// Create connection
+    $conn = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    //Query Issues and Authors
+    
+    //Query Journal Detail
+    $sql = "SELECT D.DOCID, D.TITLE, D.PDATE, P.PUBNAME, P.ADDRESS, J.JVOLUME, C.ENAME
+    		FROM DOCUMENT D, PUBLISHER P, JOURNAL_VOLUME J, CHIEF_EDITOR C
+    		WHERE D.DOCID = J.DOCID AND D.PUBLISHERID = P.PUBLISHERID AND D.DOCID = '$id'
+    		AND C.EDITOR_ID = J.EDITOR_ID";
+    $result = $conn->query($sql);
+    if ($result->num_rows == 1) {
+    	$row = $result->fetch_assoc();
+    	echo 	"<div class='card'>
+    				<div class='card-block'>
+    					<h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE']."</h4>
+    					<p class='card-text'>Publish Year: ".$row['PDATE']."</p>
+    					<p class='card-text'>Publisher: ".$row['PUBNAME']."</p>
+    					<p class='card-text'>Publisher Location: ".$row['ADDRESS']."</p>
+    					<p class='card-text'>Chief Editor: ".$row['ENAME']."</p>
+    					
+    					<a href='#'' class='btn btn-primary'>Reserve</a>
+    				</div>
+    			</div>";
+    }
+    $conn->close();
+}
+
+function proceedingDetail($id='')
+{
+	// Create connection
+    $conn = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    //Query Proceeding Detail
+    $sql = "SELECT D.DOCID, D.TITLE, D.PDATE, P.PUBNAME, P.ADDRESS, PR.CDATE, PR.CLOCATION, PR.CEDITOR
+    		FROM DOCUMENT D, PUBLISHER P, PROCEEDINGS PR
+    		WHERE D.DOCID = PR.DOCID AND D.PUBLISHERID = P.PUBLISHERID AND D.DOCID = '$id'";
+    $result = $conn->query($sql);
+    if ($result->num_rows == 1) {
+    	$row = $result->fetch_assoc();
+    	echo 	"<div class='card'>
+    				<div class='card-block'>
+    					<h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE']."</h4>
+    					<p class='card-text'>Publish Year: ".$row['PDATE']."</p>
+    					<p class='card-text'>Publisher: ".$row['PUBNAME']."</p>
+    					<p class='card-text'>Publisher Location: ".$row['ADDRESS']."</p>
+    					<p class='card-text'>Conference Date: ".$row['CDATE']."</p>
+    					<p class='card-text'>Conference Location: ".$row['CLOCATION']."</p>
+    					<p class='card-text'>Conference Editor: ".$row['CEDITOR']."</p>
+    					
+    					<a href='#'' class='btn btn-primary'>Reserve</a>
+    				</div>
+    			</div>";
+    }
+    $conn->close();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -117,7 +224,15 @@ $searchBy = $_GET['by'];
 	</ol>
 <!-- // End Breadcrumb -->
     <div class="m-t-1">
-		
+<?php 
+    if (strpos($docID, 'B') !== false) {
+        echo bookDetail($docID);
+    }elseif (strpos($docID, 'J') !== false) {
+        echo journalDetail($docID);
+    }elseif (strpos($docID, 'P') !== false) {
+        echo proceedingDetail($docID);
+    }
+?>
     </div>
 </div>
 <!-- // End Content -->

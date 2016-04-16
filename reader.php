@@ -106,7 +106,7 @@ include('session.php');
 
 <!-- // Content -->
 <div class="container layout-content">
-    <div style="margin-top: 15rem;">
+    <div style="margin-top: 15rem;margin-bottom: 15rem;">
         <form action="reader_search.php" method="get">
         <div class="input-group">
           <div class="input-group-btn">
