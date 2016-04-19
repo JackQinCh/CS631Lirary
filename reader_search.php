@@ -178,7 +178,7 @@ if ($search != ""){
             }
             echo "<div class='card card-block search-list-item' onclick=window.location.href='reader_search_detail.php?docID=".$row['DOCID']."&search=".$search."&by=".$searchBy."'>
             <h4 class='card-title'>".$row['TITLE'].$label.
-            "</h4><p class='card-subtitle text-muted'>".$row['PDATE']." Published by <u><em>".$row['PUBNAME']."</em></u></p></div>";
+            "</h4><p class='card-text text-muted'>".$row['PDATE']." Published by <u><em>".$row['PUBNAME']."</em></u></p></div>";
         } 
     }else{
         echo "<div class='alert alert-danger' role='alert'>
@@ -210,6 +210,17 @@ $('button.dropdown-item').click(function () {
     $('#byDropdown').html($(this).html());
     $('input[name="by"]').val($(this).html());
 });
+
+$('.search-list-item').hover(
+    function () {
+        $(this).addClass('card-inverse');
+        $(this).addClass('card-primary');
+    },
+    function () {
+        $(this).removeClass('card-inverse');
+        $(this).removeClass('card-primary');
+    }
+    );
 
 </script>
 </body>
