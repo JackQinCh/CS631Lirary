@@ -34,11 +34,18 @@ function bookDetail($id='')
     	echo 	"<div class='card'>
     				<div class='card-block'>
     					<h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE']."</h4>
-    					<p class='card-text'>Publish Year: ".$row['PDATE']."</p>
-    					<p class='card-text'>Publisher: ".$row['PUBNAME']."</p>
-    					<p class='card-text'>Publisher Location: ".$row['ADDRESS']."</p>
-    					<p class='card-text'>Authors: ".$authors."</p>
-    					<p class='card-text'>ISBN: ".$row['ISBN']."</p>
+    					<dl class='card-block dl-horizontal'>
+    					<dt class='card-text col-sm-3'>Publish Year</dt>
+    					<dd class='card-text col-sm-9'>".$row['PDATE']."</dd>
+						<dt class='card-text col-sm-3'>Publisher</dt>
+    					<dd class='card-text col-sm-9'>".$row['PUBNAME']."</dd>
+    					<dt class='card-text col-sm-3'>Publisher Location</dt>
+    					<dd class='card-text col-sm-9'>".$row['ADDRESS']."</dd>
+    					<dt class='card-text col-sm-3'>Authors</dt>
+    					<dd class='card-text col-sm-9'>".$authors."</dd>
+    					<dt class='card-text col-sm-3'>ISBN</dt>
+    					<dd class='card-text col-sm-9'>".$row['ISBN']."</dd>
+    					</dl>
     					<a href='#'' class='btn btn-primary'>Reserve</a>
     				</div>
     			</div>";
@@ -57,14 +64,14 @@ function journalDetail($id='')
     //Query Issues and Authors
     
     //Query Journal Detail
-    $issues = "<h5>Issues:</h5><ol>";
+    $issues = "<h5>ISSUES:</h5><ol>";
     $sql = "SELECT ISSUE_NO, SCOPE
     		FROM JOURNAL_ISSUE
     		WHERE DOCID = '$id'";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
     	while($issue = $result->fetch_assoc()){
-    		$issues .= "<li>".$issue['SCOPE'].": ";
+    		$issues .= "<li><strong>".$issue['SCOPE']."</strong> by ";
 	    	$sql1 = "SELECT IENAME
 	    			 FROM INV_EDITOR
 	    			 WHERE DOCID = '$id' AND ISSUE_NO = ".$issue['ISSUE_NO'];
@@ -90,10 +97,16 @@ function journalDetail($id='')
     	echo 	"<div class='card'>
     				<div class='card-block'>
     					<h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE']."</h4>
-    					<p class='card-text'>Publish Year: ".$row['PDATE']."</p>
-    					<p class='card-text'>Publisher: ".$row['PUBNAME']."</p>
-    					<p class='card-text'>Publisher Location: ".$row['ADDRESS']."</p>
-    					<p class='card-text'>Chief Editor: ".$row['ENAME']."</p>
+    					<dl class='card-block dl-horizontal'>
+    					<dt class='card-text col-sm-3'>Publish Year</dt>
+    					<dd class='card-text col-sm-9'>".$row['PDATE']."</dd>
+						<dt class='card-text col-sm-3'>Publisher</dt>
+    					<dd class='card-text col-sm-9'>".$row['PUBNAME']."</dd>
+    					<dt class='card-text col-sm-3'>Publisher Location</dt>
+    					<dd class='card-text col-sm-9'>".$row['ADDRESS']."</dd>
+    					<dt class='card-text col-sm-3'>Chief Editor</dt>
+    					<dd class='card-text col-sm-9'>".$row['ENAME']."</dd>
+    					</dl>
     					".$issues."
     					<a href='#'' class='btn btn-primary'>Reserve</a>
     				</div>
@@ -120,13 +133,20 @@ function proceedingDetail($id='')
     	echo 	"<div class='card'>
     				<div class='card-block'>
     					<h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE']."</h4>
-    					<p class='card-text'>Publish Year: ".$row['PDATE']."</p>
-    					<p class='card-text'>Publisher: ".$row['PUBNAME']."</p>
-    					<p class='card-text'>Publisher Location: ".$row['ADDRESS']."</p>
-    					<p class='card-text'>Conference Date: ".$row['CDATE']."</p>
-    					<p class='card-text'>Conference Location: ".$row['CLOCATION']."</p>
-    					<p class='card-text'>Conference Editor: ".$row['CEDITOR']."</p>
-    					
+						<dl class='card-block dl-horizontal'>
+    					<dt class='card-text col-sm-3'>Publish Year</dt>
+    					<dd class='card-text col-sm-9'>".$row['PDATE']."</dd>
+						<dt class='card-text col-sm-3'>Publisher</dt>
+    					<dd class='card-text col-sm-9'>".$row['PUBNAME']."</dd>
+    					<dt class='card-text col-sm-3'>Publisher Location</dt>
+    					<dd class='card-text col-sm-9'>".$row['ADDRESS']."</dd>
+    					<dt class='card-text col-sm-3'>Conference Date</dt>
+    					<dd class='card-text col-sm-9'>".$row['CDATE']."</dd>
+    					<dt class='card-text col-sm-3'>Conference Location</dt>
+    					<dd class='card-text col-sm-9'>".$row['CLOCATION']."</dd>
+    					<dt class='card-text col-sm-3'>Conference Editor</dt>
+    					<dd class='card-text col-sm-9'>".$row['CEDITOR']."</dd>
+    					</dl>
     					<a href='#'' class='btn btn-primary'>Reserve</a>
     				</div>
     			</div>";
