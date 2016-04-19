@@ -57,6 +57,29 @@ function journalDetail($id='')
     //Query Issues and Authors
     
     //Query Journal Detail
+    $issues = "<h5>Issues:</h5><ol>";
+    $sql = "SELECT ISSUE_NO, SCOPE
+    		FROM JOURNAL_ISSUE
+    		WHERE DOCID = '$id'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+    	while($issue = $result->fetch_assoc()){
+    		$issues .= "<li>".$issue['SCOPE'].": ";
+	    	$sql1 = "SELECT IENAME
+	    			 FROM INV_EDITOR
+	    			 WHERE DOCID = '$id' AND ISSUE_NO = ".$issue['ISSUE_NO'];
+	    	$authors = '';
+	    	$resultAu = $conn->query($sql1);
+	    	if ($resultAu->num_rows > 0) {
+	    		while ( $author = $resultAu->fetch_assoc()) {
+	    			$authors .= $author['IENAME']." / ";
+	    		};
+	    	}
+	    	$issues .= $authors."</li>";
+    	}
+    	$issues .= "</ol>";	
+    }
+
     $sql = "SELECT D.DOCID, D.TITLE, D.PDATE, P.PUBNAME, P.ADDRESS, J.JVOLUME, C.ENAME
     		FROM DOCUMENT D, PUBLISHER P, JOURNAL_VOLUME J, CHIEF_EDITOR C
     		WHERE D.DOCID = J.DOCID AND D.PUBLISHERID = P.PUBLISHERID AND D.DOCID = '$id'
@@ -71,7 +94,7 @@ function journalDetail($id='')
     					<p class='card-text'>Publisher: ".$row['PUBNAME']."</p>
     					<p class='card-text'>Publisher Location: ".$row['ADDRESS']."</p>
     					<p class='card-text'>Chief Editor: ".$row['ENAME']."</p>
-    					
+    					".$issues."
     					<a href='#'' class='btn btn-primary'>Reserve</a>
     				</div>
     			</div>";
