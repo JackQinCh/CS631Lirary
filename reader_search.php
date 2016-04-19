@@ -215,10 +215,12 @@ $('.search-list-item').hover(
     function () {
         $(this).addClass('card-inverse');
         $(this).addClass('card-primary');
+        $(this).css('cursor', 'pointer');
     },
     function () {
         $(this).removeClass('card-inverse');
         $(this).removeClass('card-primary');
+        $(this).css('cursor', 'default');
     }
     );
 
