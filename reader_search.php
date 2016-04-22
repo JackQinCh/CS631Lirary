@@ -153,6 +153,7 @@ if ($search != ""){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
+    
     //Query
     if ($by == 'DOCID') {
         $sql = "SELECT D.DOCID, D.TITLE, D.PDATE, P.PUBNAME 
@@ -163,9 +164,7 @@ if ($search != ""){
                 FROM DOCUMENT D, PUBLISHER P 
                 WHERE D.PUBLISHERID = P.PUBLISHERID AND $by LIKE '%$search%'";
     }
-    $result = $conn->query($sql);
-    $conn->close();
-    
+    $result = $conn->query($sql); 
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()){
             $label = '';
@@ -184,6 +183,7 @@ if ($search != ""){
         echo "<div class='alert alert-danger' role='alert'>
         <strong>Oops!</strong> No document found. Try another keyword!</div>";
     }
+    $conn->close();
 }
 ?>
 <!-- End Search List -->
@@ -222,7 +222,7 @@ $('.search-list-item').hover(
         $(this).removeClass('card-primary');
         $(this).css('cursor', 'default');
     }
-    );
+);
 
 </script>
 </body>

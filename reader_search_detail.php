@@ -13,6 +13,32 @@ function bookDetail($id='')
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
+    //Query Number of Remained Copies
+    $sql = "SELECT COUNT(*)
+    		FROM COPY
+    		WHERE DOCID = '$id' AND
+    			COPYNO NOT IN(
+    				SELECT COPYNO
+    				FROM RESERVES
+    				WHERE DOCID = '$id'
+    			) AND COPYNO NOT IN(
+    				SELECT COPYNO
+    				FROM BORROWS
+    				WHERE DOCID = '$id'
+    			)";
+    $result = $conn->query($sql);
+    $num_copy = 0;
+    $copy_label = "<span class='label label-default searchlist-label'>0 copies</span>";
+    if ($result->num_rows == 1){
+    	$row = $result->fetch_assoc();
+	    $num_copy = $row['COUNT(*)'];
+	    $copy_label = "<span class='label label-default searchlist-label'>$num_copy copies</span>";
+    }
+    $select_count = '';
+    for ($i=1; $i <= $num_copy; $i++) { 
+    	$select_count .= "<option value=$i>$i</option>";
+    }
+
     //Query Authors
     $authors = '';
     $sql = "SELECT A.ANAME
@@ -33,7 +59,7 @@ function bookDetail($id='')
     	$row = $result->fetch_assoc();
     	echo 	"<div class='card'>
     				<div class='card-block'>
-    					<h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE']."</h4>
+    					<h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE'].$copy_label."</h4>
     					<dl class='card-block dl-horizontal'>
     					<dt class='card-text col-sm-3'>Publish Year</dt>
     					<dd class='card-text col-sm-9'>".$row['PDATE']."</dd>
@@ -46,12 +72,22 @@ function bookDetail($id='')
     					<dt class='card-text col-sm-3'>ISBN</dt>
     					<dd class='card-text col-sm-9'>".$row['ISBN']."</dd>
     					</dl>
-    					<a href='#'' class='btn btn-primary'>Reserve</a>
+
+    					<form class='form-inline'>
+							<fieldset class='form-group'>
+								<label for='num-copy'>Qty:</label>
+								<select name='num-copy' class='form-control' id='copy-list' style='max-width:40px;'>
+								".$select_count."
+								</select>
+							</fieldset>
+							 <button type='submit' class='btn btn-primary'>Reserve</button>
+						</form>
     				</div>
     			</div>";
     }
     $conn->close();
 }
+
 
 function journalDetail($id='')
 {
@@ -61,8 +97,31 @@ function journalDetail($id='')
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    //Query Issues and Authors
-    
+    //Query Number of Remained Copies
+    $sql = "SELECT COUNT(*)
+    		FROM COPY
+    		WHERE DOCID = '$id' AND
+    			COPYNO NOT IN(
+    				SELECT COPYNO
+    				FROM RESERVES
+    				WHERE DOCID = '$id'
+    			) AND COPYNO NOT IN(
+    				SELECT COPYNO
+    				FROM BORROWS
+    				WHERE DOCID = '$id'
+    			)";
+    $result = $conn->query($sql);
+    $copy_label = "<span class='label label-default searchlist-label'>0 copies</span>";
+    $num_copy = 0;
+    if ($result->num_rows == 1){
+    	$row = $result->fetch_assoc();
+	    $num_copy = $row['COUNT(*)'];
+	    $copy_label = "<span class='label label-default searchlist-label'>$num_copy copies</span>";
+    }
+    $select_count = '';
+    for ($i=1; $i <= $num_copy; $i++) { 
+    	$select_count .= "<option value=$i>$i</option>";
+    }
     //Query Journal Detail
     $issues = "<h5>ISSUES:</h5><ol>";
     $sql = "SELECT ISSUE_NO, SCOPE
@@ -96,7 +155,7 @@ function journalDetail($id='')
     	$row = $result->fetch_assoc();
     	echo 	"<div class='card'>
     				<div class='card-block'>
-    					<h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE']."</h4>
+    					<h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE'].$copy_label."</h4>
     					<dl class='card-block dl-horizontal'>
     					<dt class='card-text col-sm-3'>Publish Year</dt>
     					<dd class='card-text col-sm-9'>".$row['PDATE']."</dd>
@@ -108,7 +167,15 @@ function journalDetail($id='')
     					<dd class='card-text col-sm-9'>".$row['ENAME']."</dd>
     					</dl>
     					".$issues."
-    					<a href='#'' class='btn btn-primary'>Reserve</a>
+    					<form class='form-inline'>
+							<fieldset class='form-group'>
+								<label for='num-copy'>Qty:</label>
+								<select name='num-copy' class='form-control' id='copy-list' style='max-width:40px;'>
+								".$select_count."
+								</select>
+							</fieldset>
+							 <button type='submit' class='btn btn-primary'>Reserve</button>
+						</form>
     				</div>
     			</div>";
     }
@@ -123,6 +190,31 @@ function proceedingDetail($id='')
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
+    //Query Number of Remained Copies
+    $sql = "SELECT COUNT(*)
+    		FROM COPY
+    		WHERE DOCID = '$id' AND
+    			COPYNO NOT IN(
+    				SELECT COPYNO
+    				FROM RESERVES
+    				WHERE DOCID = '$id'
+    			) AND COPYNO NOT IN(
+    				SELECT COPYNO
+    				FROM BORROWS
+    				WHERE DOCID = '$id'
+    			)";
+    $result = $conn->query($sql);
+    $copy_label = "<span class='label label-default searchlist-label'>0 copies</span>";
+    $num_copy = 0;
+    if ($result->num_rows == 1){
+    	$row = $result->fetch_assoc();
+	    $num_copy = $row['COUNT(*)'];
+	    $copy_label = "<span class='label label-default searchlist-label'>$num_copy copies</span>";
+    }
+    $select_count = '';
+    for ($i=1; $i <= $num_copy; $i++) { 
+    	$select_count .= "<option value=$i>$i</option>";
+    }
     //Query Proceeding Detail
     $sql = "SELECT D.DOCID, D.TITLE, D.PDATE, P.PUBNAME, P.ADDRESS, PR.CDATE, PR.CLOCATION, PR.CEDITOR
     		FROM DOCUMENT D, PUBLISHER P, PROCEEDINGS PR
@@ -132,7 +224,7 @@ function proceedingDetail($id='')
     	$row = $result->fetch_assoc();
     	echo 	"<div class='card'>
     				<div class='card-block'>
-    					<h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE']."</h4>
+    					<h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE'].$copy_label."</h4>
 						<dl class='card-block dl-horizontal'>
     					<dt class='card-text col-sm-3'>Publish Year</dt>
     					<dd class='card-text col-sm-9'>".$row['PDATE']."</dd>
@@ -147,7 +239,15 @@ function proceedingDetail($id='')
     					<dt class='card-text col-sm-3'>Conference Editor</dt>
     					<dd class='card-text col-sm-9'>".$row['CEDITOR']."</dd>
     					</dl>
-    					<a href='#'' class='btn btn-primary'>Reserve</a>
+    					<form class='form-inline'>
+							<fieldset class='form-group'>
+								<label for='num-copy'>Qty:</label>
+								<select name='num-copy' class='form-control' id='copy-list' style='max-width:40px;'>
+								".$select_count."
+								</select>
+							</fieldset>
+							 <button type='submit' class='btn btn-primary'>Reserve</button>
+						</form>
     				</div>
     			</div>";
     }
