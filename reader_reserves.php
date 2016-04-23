@@ -97,7 +97,7 @@ include ('session.php');
 
 <!-- // Content -->
 <div class="container layout-content">
-
+    <h4 class="text-muted">Reserved List</h4>
     <!-- Reserves List -->
     <?php
     // Create connection
@@ -123,6 +123,8 @@ include ('session.php');
                 <a class='btn btn-danger btn-sm' href='cancel_reserve.php?resid=".$row['RESUMBER']."'>Cancel</a>
                 </div>";
         }
+    }else{
+        echo "0 reserved";
     }
     $conn->close();
     ?>

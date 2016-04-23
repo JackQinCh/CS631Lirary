@@ -56,12 +56,12 @@ include ('session.php');
                 <i class="sidebar-menu-icon material-icons">search</i>
                 Search</a>
         </li>
-        <li class="sidebar-menu-item active">
+        <li class="sidebar-menu-item ">
             <a href="reader_reserves.php" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">lock</i>
                 Reserved</a>
         </li>
-        <li class="sidebar-menu-item">
+        <li class="sidebar-menu-item active">
             <a href="reader_borrowed.php" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">check_circle</i>
                 Borrowed</a>
@@ -99,7 +99,7 @@ include ('session.php');
 <div class="container layout-content">
 
     <!-- Borrowed List -->
-    <h4>Borrowed List</h4>
+    <h4 class="text-muted">Borrowed List</h4>
     <?php
     // Create connection
     $conn = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
@@ -115,8 +115,22 @@ include ('session.php');
     $result = $conn->query($sql);
     if ($result->num_rows > 0){
         while ($row = $result->fetch_assoc()){
+            date_default_timezone_set('America/New_York');
+            $now = new DateTime();
+            $bortime = new DateTime($row['BDTIME']);
+            $interval = $now->diff($bortime);
+            $fineLabel = '';
+            $day = $interval->d - 20;
+            if ($day > 0){
+                $fine = $day * 0.2;
+                $fineLabel = "<span class='label label-danger searchlist-label'>fine $$fine</span>";
+            }else{
+                $day = -$day;
+                $fineLabel = "<span class='label label-success searchlist-label'>$day days remained</span>";
+            }
+
             echo "<div class='card card-block search-list-item'>
-                    <h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE'].
+                    <h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE'].$fineLabel.
                 "</h4><p class='card-text text-muted'>borrowed at ".$row['BDTIME']."</p>
                 <a class='btn btn-success btn-sm' href='return.php?borid=".$row['BORNUMBER']."'>Return</a>
                 </div>";
@@ -128,7 +142,7 @@ include ('session.php');
 
     ?>
     <hr>
-    <h4>History</h4>
+    <h4 class="text-muted">History</h4>
     <?php
     // Create connection
     $conn = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
@@ -144,6 +158,7 @@ include ('session.php');
     $result = $conn->query($sql);
     if ($result->num_rows > 0){
         while ($row = $result->fetch_assoc()){
+
             echo "<div class='card card-block search-list-item'>
                     <h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE'].
                 "</h4><p class='card-text text-muted'>borrowed at ".$row['BDTIME']." &bull; returned at ".$row['RDTIME']."</p>

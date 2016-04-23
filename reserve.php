@@ -28,7 +28,7 @@ $sql="SELECT C.COPYNO, C.LIBID
       ) AND C.COPYNO NOT IN (
         SELECT B.COPYNO
         FROM BORROWS B
-        WHERE B.DOCID = '$docID' AND B.LIBID = C.LIBID
+        WHERE B.DOCID = '$docID' AND B.LIBID = C.LIBID AND B.RDTIME IS NULL
       )";
 $result = $conn->query($sql);
 
