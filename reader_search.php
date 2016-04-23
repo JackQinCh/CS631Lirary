@@ -76,16 +76,9 @@ switch ($searchBy) {
             Borrowed</a>
         </li>
         <li class="sidebar-menu-item">
-            <a href="" class="sidebar-menu-button">
-            <i class="sidebar-menu-icon material-icons">monetization_on</i>
-            Fine
-            <span class="sidebar-menu-label label label-default">$20</span>
-            </a>
-        </li>
-        <li class="sidebar-menu-item">
-            <a href="" class="sidebar-menu-button">
+            <a href="reader_findreader.php" class="sidebar-menu-button">
             <i class="sidebar-menu-icon material-icons">print</i>
-            Print Reverves
+                Print Reservations
             </a>
         </li>
         <li class="sidebar-menu-item">
@@ -126,7 +119,7 @@ switch ($searchBy) {
             
           <input name="search" type="text" class="form-control" aria-label="Search Document" placeholder="Search Document" value="<?php echo $search?>" onkeydown='if(event.keyCode==13){gosubmit();}'>
 
-          <input name="by" value="<?php echo $searchBy?>" hidden></input>
+          <input name="by" value="<?php echo $searchBy?>" hidden /input>
         </div>
         </form>
     </div>

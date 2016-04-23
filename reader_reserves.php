@@ -67,16 +67,9 @@ include ('session.php');
                 Borrowed</a>
         </li>
         <li class="sidebar-menu-item">
-            <a href="" class="sidebar-menu-button">
-                <i class="sidebar-menu-icon material-icons">monetization_on</i>
-                Fine
-                <span class="sidebar-menu-label label label-default">$20</span>
-            </a>
-        </li>
-        <li class="sidebar-menu-item">
-            <a href="" class="sidebar-menu-button">
+            <a href="reader_findreader.php" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">print</i>
-                Print Reverves
+                Print Reservations
             </a>
         </li>
         <li class="sidebar-menu-item">

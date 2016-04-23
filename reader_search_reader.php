@@ -1,5 +1,7 @@
 <?php
 include ('session.php');
+// Get Request Data
+$search = $_GET['search'];
 
 ?>
 <!DOCTYPE html>
@@ -51,22 +53,29 @@ include ('session.php');
 
     <div class="sidebar-heading">Reader Menu</div>
     <ul class="sidebar-menu">
-        <li class="sidebar-menu-item">
+        <li class="sidebar-menu-item ">
             <a href="reader.php" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">search</i>
                 Search</a>
         </li>
-        <li class="sidebar-menu-item ">
-            <a href="reader_reserves.php" class="sidebar-menu-button">
+        <li class="sidebar-menu-item">
+            <a href="" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">lock</i>
                 Reserved</a>
         </li>
-        <li class="sidebar-menu-item active">
+        <li class="sidebar-menu-item">
             <a href="reader_borrowed.php" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">check_circle</i>
                 Borrowed</a>
         </li>
-        <li class="sidebar-menu-item">
+<!--        <li class="sidebar-menu-item">-->
+<!--            <a href="" class="sidebar-menu-button">-->
+<!--                <i class="sidebar-menu-icon material-icons">monetization_on</i>-->
+<!--                Fine-->
+<!--                <span class="sidebar-menu-label label label-default">$20</span>-->
+<!--            </a>-->
+<!--        </li>-->
+        <li class="sidebar-menu-item active">
             <a href="reader_findreader.php" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">print</i>
                 Print Reservations
@@ -90,80 +99,49 @@ include ('session.php');
 
 <!-- // Content -->
 <div class="container layout-content">
+    <ol class="breadcrumb m-t-1">
+        <li class="active">Search</li>
+    </ol>
+    <!-- Search Bar -->
+    <div class="m-t-1 m-b-1">
+        <form action="" method="get">
+            <input name="search" type="text" value="<?php echo $search?>" class="form-control" placeholder="Search Reader Name">
+        </form>
+    </div>
+    <!-- End Search Bar -->
 
-    <!-- Borrowed List -->
-    <h4 class="text-muted">Borrowed List</h4>
+    <!-- Search List -->
     <?php
-    // Create connection
-    $conn = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    //
-    $sql = "SELECT D.DOCID, D.TITLE, B.BDTIME, B.BORNUMBER
-            FROM DOCUMENT D, BORROWS B
-            WHERE D.DOCID = B.DOCID AND B.READERID = '$readerId' AND B.RDTIME IS NULL";
 
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0){
-        while ($row = $result->fetch_assoc()){
-            date_default_timezone_set('America/New_York');
-            $now = new DateTime();
-            $bortime = new DateTime($row['BDTIME']);
-            $interval = $now->diff($bortime);
-            $fineLabel = '';
-            $day = $interval->d - 20;
-            if ($day > 0){
-                $fine = $day * 0.2;
-                $fineLabel = "<span class='label label-danger searchlist-label'>fine $$fine</span>";
-            }else{
-                $day = -$day;
-                $fineLabel = "<span class='label label-success searchlist-label'>$day days remained</span>";
+    if ($search != ""){
+        // Create connection
+        $conn = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        //Query
+        $sql = "SELECT READERID, RTYPE, RNAME
+                FROM READER
+                WHERE RNAME LIKE '%$search%'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0){
+            while ($row = $result->fetch_assoc()){
+                echo "<div class='card card-block search-list-item' onclick=window.location.href='reader_reader_detail.php?readID=".$row['READERID']."'>
+                    <h4 class='card-title'>".$row['RNAME']."</h4>
+                    <p class='card-text text-muted'>".$row['RTYPE']."</p>
+                    </div>";
             }
 
-            echo "<div class='card card-block search-list-item'>
-                    <h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE'].$fineLabel.
-                "</h4><p class='card-text text-muted'>borrowed at ".$row['BDTIME']."</p>
-                <a class='btn btn-success btn-sm' href='return.php?borid=".$row['BORNUMBER']."'>Return</a>
-                </div>";
+        }else{
+            echo "<div class='alert alert-danger' role='alert'>
+        <strong>Oops!</strong> No reader found. Try another name!</div>";
         }
-    }else{
-        echo "<p>0 borrowed</p>";
-    }
-    $conn->close();
 
+        $conn->close();
+    }
     ?>
-    <hr>
-    <h4 class="text-muted">History</h4>
-    <?php
-    // Create connection
-    $conn = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    //
-    $sql = "SELECT D.DOCID, D.TITLE, B.BDTIME, B.BORNUMBER, B.RDTIME
-            FROM DOCUMENT D, BORROWS B
-            WHERE D.DOCID = B.DOCID AND B.READERID = '$readerId' AND B.RDTIME IS NOT NULL";
-
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0){
-        while ($row = $result->fetch_assoc()){
-
-            echo "<div class='card card-block search-list-item'>
-                    <h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE'].
-                "</h4><p class='card-text text-muted'>borrowed at ".$row['BDTIME']." &bull; returned at ".$row['RDTIME']."</p>
-                </div>";
-        }
-    }else{
-        echo "<p>0 history</p>";
-    }
-    $conn->close();
-
-    ?>
-    <!-- End Reserves List -->
+    <!-- End Search List -->
 </div>
 <!-- // End Content -->
 
@@ -179,7 +157,19 @@ include ('session.php');
 <script type="text/javascript" src="js/site.js"></script>
 
 <script>
-
+    $('.search-list-item').hover(
+        function () {
+            $(this).addClass('card-inverse');
+            $(this).addClass('card-primary');
+            $(this).css('cursor', 'pointer');
+        },
+        function () {
+            $(this).removeClass('card-inverse');
+            $(this).removeClass('card-primary');
+            $(this).css('cursor', 'default');
+        }
+    );
 </script>
+
 </body>
 </html>
