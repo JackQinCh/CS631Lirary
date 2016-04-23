@@ -35,9 +35,9 @@ function bookDetail($id='')
 	    $copy_label = "<span class='label label-default searchlist-label'>$num_copy copies</span>";
     }
     $select_count = '';
-    $submit_active = 'disable';
+    $submit_active = '';
     if ($num_copy == 0) {
-    	$submit_active = '';
+    	$submit_active = 'disabled';
         $select_count = '<option>0</option>';
     }
     for ($i=1; $i <= $num_copy; $i++) { 
@@ -79,14 +79,16 @@ function bookDetail($id='')
     					</dl>
 
     					<form class='form-inline' method='get' action='reserve.php'>
-							<fieldset class='form-group'>
-								<label for='num-copy'>Qty:</label>
+							<fieldset ".$submit_active.">
+							<div class='form-group'>
+							    <label for='num-copy'>Qty:</label>
 								<select name='num-copy' class='form-control' id='copy-list' style='max-width:40px;'>
 								".$select_count."
 								</select>
+							</div>
 								<input name='docid' value='$id' hidden/>
+								<button type='submit' class='btn btn-primary btn-sm'>Reserve</button>
 							</fieldset>
-							 <button type='submit' class='btn btn-primary btn-sm ".$submit_active."'>Reserve</button>
 						</form>
     				</div>
     			</div>";
@@ -117,16 +119,21 @@ function journalDetail($id='')
     				WHERE DOCID = '$id'
     			)";
     $result = $conn->query($sql);
-    $copy_label = "<span class='label label-default searchlist-label'>0 copies</span>";
     $num_copy = 0;
+    $copy_label = "<span class='label label-default searchlist-label'>0 copies</span>";
     if ($result->num_rows == 1){
-    	$row = $result->fetch_assoc();
-	    $num_copy = $row['COUNT(*)'];
-	    $copy_label = "<span class='label label-default searchlist-label'>$num_copy copies</span>";
+        $row = $result->fetch_assoc();
+        $num_copy = $row['COUNT(*)'];
+        $copy_label = "<span class='label label-default searchlist-label'>$num_copy copies</span>";
     }
     $select_count = '';
-    for ($i=1; $i <= $num_copy; $i++) { 
-    	$select_count .= "<option value=$i>$i</option>";
+    $submit_active = '';
+    if ($num_copy == 0) {
+        $submit_active = 'disabled';
+        $select_count = '<option>0</option>';
+    }
+    for ($i=1; $i <= $num_copy; $i++) {
+        $select_count .= "<option value=$i>$i</option>";
     }
     //Query Journal Detail
     $issues = "<h5>ISSUES:</h5><ol>";
@@ -173,14 +180,17 @@ function journalDetail($id='')
     					<dd class='card-text col-sm-9'>".$row['ENAME']."</dd>
     					</dl>
     					".$issues."
-    					<form class='form-inline'>
-							<fieldset class='form-group'>
-								<label for='num-copy'>Qty:</label>
+    					<form class='form-inline' method='get' action='reserve.php'>
+							<fieldset ".$submit_active.">
+							<div class='form-group'>
+							    <label for='num-copy'>Qty:</label>
 								<select name='num-copy' class='form-control' id='copy-list' style='max-width:40px;'>
 								".$select_count."
 								</select>
+							</div>
+								<input name='docid' value='$id' hidden/>
+								<button type='submit' class='btn btn-primary btn-sm'>Reserve</button>
 							</fieldset>
-							 <button type='submit' class='btn btn-primary btn-sm'>Reserve</button>
 						</form>
     				</div>
     			</div>";
@@ -210,16 +220,21 @@ function proceedingDetail($id='')
     				WHERE DOCID = '$id'
     			)";
     $result = $conn->query($sql);
-    $copy_label = "<span class='label label-default searchlist-label'>0 copies</span>";
     $num_copy = 0;
+    $copy_label = "<span class='label label-default searchlist-label'>0 copies</span>";
     if ($result->num_rows == 1){
-    	$row = $result->fetch_assoc();
-	    $num_copy = $row['COUNT(*)'];
-	    $copy_label = "<span class='label label-default searchlist-label'>$num_copy copies</span>";
+        $row = $result->fetch_assoc();
+        $num_copy = $row['COUNT(*)'];
+        $copy_label = "<span class='label label-default searchlist-label'>$num_copy copies</span>";
     }
     $select_count = '';
-    for ($i=1; $i <= $num_copy; $i++) { 
-    	$select_count .= "<option value=$i>$i</option>";
+    $submit_active = '';
+    if ($num_copy == 0) {
+        $submit_active = 'disabled';
+        $select_count = '<option>0</option>';
+    }
+    for ($i=1; $i <= $num_copy; $i++) {
+        $select_count .= "<option value=$i>$i</option>";
     }
     //Query Proceeding Detail
     $sql = "SELECT D.DOCID, D.TITLE, D.PDATE, P.PUBNAME, P.ADDRESS, PR.CDATE, PR.CLOCATION, PR.CEDITOR
@@ -245,14 +260,17 @@ function proceedingDetail($id='')
     					<dt class='card-text col-sm-3'>Conference Editor</dt>
     					<dd class='card-text col-sm-9'>".$row['CEDITOR']."</dd>
     					</dl>
-    					<form class='form-inline'>
-							<fieldset class='form-group'>
-								<label for='num-copy'>Qty:</label>
+    					<form class='form-inline' method='get' action='reserve.php'>
+							<fieldset ".$submit_active.">
+							<div class='form-group'>
+							    <label for='num-copy'>Qty:</label>
 								<select name='num-copy' class='form-control' id='copy-list' style='max-width:40px;'>
 								".$select_count."
 								</select>
+							</div>
+								<input name='docid' value='$id' hidden/>
+								<button type='submit' class='btn btn-primary btn-sm'>Reserve</button>
 							</fieldset>
-							 <button type='submit' class='btn btn-primary btn-sm'>Reserve</button>
 						</form>
     				</div>
     			</div>";
