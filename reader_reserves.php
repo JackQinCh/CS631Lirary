@@ -1,5 +1,6 @@
 <?php
-include('session.php');
+include ('session.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,68 +37,68 @@ include('session.php');
     <ul class="sidebar-menu">
         <li class="sidebar-menu-item active">
             <a class="sidebar-menu-button" href="reader_index.php">
-            <i class="sidebar-menu-icon material-icons">face</i>
-            Reader
+                <i class="sidebar-menu-icon material-icons">face</i>
+                Reader
             </a>
         </li>
         <li class="sidebar-menu-item">
             <a class="sidebar-menu-button" href="admin_index.php">
-            <i class="sidebar-menu-icon material-icons">perm_identity</i>
-            Administrator
+                <i class="sidebar-menu-icon material-icons">perm_identity</i>
+                Administrator
             </a>
         </li>
     </ul>
 
     <div class="sidebar-heading">Reader Menu</div>
     <ul class="sidebar-menu">
-        <li class="sidebar-menu-item active">
+        <li class="sidebar-menu-item">
             <a href="reader.php" class="sidebar-menu-button">
-            <i class="sidebar-menu-icon material-icons">search</i>
-            Search</a>
+                <i class="sidebar-menu-icon material-icons">search</i>
+                Search</a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
-            <i class="sidebar-menu-icon material-icons">shopping_cart</i>
-            Checkout</a>
+                <i class="sidebar-menu-icon material-icons">shopping_cart</i>
+                Checkout</a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
-            <i class="sidebar-menu-icon material-icons">assignment_return</i>
-            Return</a>
+                <i class="sidebar-menu-icon material-icons">assignment_return</i>
+                Return</a>
         </li>
-        <li class="sidebar-menu-item">
+        <li class="sidebar-menu-item active">
             <a href="reader_reserves.php" class="sidebar-menu-button">
-            <i class="sidebar-menu-icon material-icons">lock</i>
-            Reserve</a>
+                <i class="sidebar-menu-icon material-icons">lock</i>
+                Reserve</a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
-            <i class="sidebar-menu-icon material-icons">check_circle</i>
-            Borrow</a>
+                <i class="sidebar-menu-icon material-icons">check_circle</i>
+                Borrow</a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
-            <i class="sidebar-menu-icon material-icons">monetization_on</i>
-            Fine
-            <span class="sidebar-menu-label label label-default">$20</span>
+                <i class="sidebar-menu-icon material-icons">monetization_on</i>
+                Fine
+                <span class="sidebar-menu-label label label-default">$20</span>
             </a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
-            <i class="sidebar-menu-icon material-icons">print</i>
-            Print Reverves
+                <i class="sidebar-menu-icon material-icons">print</i>
+                Print Reverves
             </a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
-            <i class="sidebar-menu-icon material-icons">description</i>
-            Print Publisher Docs
+                <i class="sidebar-menu-icon material-icons">description</i>
+                Print Publisher Docs
             </a>
         </li>
         <li class="sidebar-menu-item">
             <a href="reader_logout.php" class="sidebar-menu-button">
-            <i class="sidebar-menu-icon material-icons">power_settings_new</i>
-            Quit
+                <i class="sidebar-menu-icon material-icons">power_settings_new</i>
+                Quit
             </a>
         </li>
     </ul>
@@ -106,26 +107,34 @@ include('session.php');
 
 <!-- // Content -->
 <div class="container layout-content">
-    <div style="margin-top: 15rem;margin-bottom: 15rem;">
-        <form action="reader_search.php" method="get">
-        <div class="input-group">
-          <div class="input-group-btn">
-            <button id="byDropdown" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Title
-            </button>
-            <div class="dropdown-menu">
-              <button class="dropdown-item active" type="button" >Title</button>
-              <button class="dropdown-item" type="button" >ID</button>
-              <button class="dropdown-item" type="button" >Publisher</button>
-            </div>
-          </div>
 
-          <input name="search" type="text" class="form-control" aria-label="Search Document" placeholder="Search Document" onkeydown='if(event.keyCode==13){gosubmit();}'>
+    <!-- Reserves List -->
+    <?php
+    // Create connection
+    $conn = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    //
+    $sql = "SELECT D.DOCID, D.TITLE, R.DTIME, C.POSITION, B.LNAME, B.LLOCATION
+            FROM DOCUMENT D, RESERVES R, COPY C, BRANCH B
+            WHERE D.DOCID = C.DOCID AND C.DOCID = R.DOCID AND R.LIBID = C.LIBID AND C.LIBID = B.LIBID 
+              AND R.READERID = '$readerId' AND R.COPYNO = C.COPYNO";
 
-          <input name="by" id="searchBy" value="Title" hidden></input>
-        </div>
-        </form>
-    </div>
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0){
+        while ($row = $result->fetch_assoc()){
+            echo "<div class='card card-block search-list-item'>
+                    <h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE'].
+                "</h4><p class='card-text text-muted'>reserved at ".$row['DTIME']."</p>
+                <p class='card-text'>Position: Library ".$row['LNAME']." (".$row['LLOCATION'].") ".$row['POSITION']."</p>
+                </div>";
+        }
+    }
+
+    ?>
+    <!-- End Reserves List -->
 </div>
 <!-- // End Content -->
 
@@ -141,17 +150,7 @@ include('session.php');
 <script type="text/javascript" src="js/site.js"></script>
 
 <script>
-function gosubmit() {
-    $('form').submit();
-}
-
-$('button.dropdown-item').click(function () {
-    $('#byDropdown').html($(this).html());
-    $('input[name="by"]').val($(this).html());
-});
 
 </script>
-
-
 </body>
 </html>

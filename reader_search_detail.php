@@ -35,6 +35,11 @@ function bookDetail($id='')
 	    $copy_label = "<span class='label label-default searchlist-label'>$num_copy copies</span>";
     }
     $select_count = '';
+    $submit_active = 'disable';
+    if ($num_copy == 0) {
+    	$submit_active = '';
+        $select_count = '<option>0</option>';
+    }
     for ($i=1; $i <= $num_copy; $i++) { 
     	$select_count .= "<option value=$i>$i</option>";
     }
@@ -73,14 +78,15 @@ function bookDetail($id='')
     					<dd class='card-text col-sm-9'>".$row['ISBN']."</dd>
     					</dl>
 
-    					<form class='form-inline'>
+    					<form class='form-inline' method='get' action='reserve.php'>
 							<fieldset class='form-group'>
 								<label for='num-copy'>Qty:</label>
 								<select name='num-copy' class='form-control' id='copy-list' style='max-width:40px;'>
 								".$select_count."
 								</select>
+								<input name='docid' value='$id' hidden/>
 							</fieldset>
-							 <button type='submit' class='btn btn-primary'>Reserve</button>
+							 <button type='submit' class='btn btn-primary btn-sm ".$submit_active."'>Reserve</button>
 						</form>
     				</div>
     			</div>";
@@ -174,7 +180,7 @@ function journalDetail($id='')
 								".$select_count."
 								</select>
 							</fieldset>
-							 <button type='submit' class='btn btn-primary'>Reserve</button>
+							 <button type='submit' class='btn btn-primary btn-sm'>Reserve</button>
 						</form>
     				</div>
     			</div>";
@@ -246,7 +252,7 @@ function proceedingDetail($id='')
 								".$select_count."
 								</select>
 							</fieldset>
-							 <button type='submit' class='btn btn-primary'>Reserve</button>
+							 <button type='submit' class='btn btn-primary btn-sm'>Reserve</button>
 						</form>
     				</div>
     			</div>";
