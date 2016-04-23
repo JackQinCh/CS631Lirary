@@ -56,25 +56,15 @@ include ('session.php');
                 <i class="sidebar-menu-icon material-icons">search</i>
                 Search</a>
         </li>
-        <li class="sidebar-menu-item">
-            <a href="" class="sidebar-menu-button">
-                <i class="sidebar-menu-icon material-icons">shopping_cart</i>
-                Checkout</a>
-        </li>
-        <li class="sidebar-menu-item">
-            <a href="" class="sidebar-menu-button">
-                <i class="sidebar-menu-icon material-icons">assignment_return</i>
-                Return</a>
-        </li>
         <li class="sidebar-menu-item active">
             <a href="reader_reserves.php" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">lock</i>
-                Reserve</a>
+                Reserved</a>
         </li>
         <li class="sidebar-menu-item">
-            <a href="" class="sidebar-menu-button">
+            <a href="reader_borrowed.php" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">check_circle</i>
-                Borrow</a>
+                Borrowed</a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
@@ -117,7 +107,7 @@ include ('session.php');
         die("Connection failed: " . $conn->connect_error);
     }
     //
-    $sql = "SELECT D.DOCID, D.TITLE, R.DTIME, C.POSITION, B.LNAME, B.LLOCATION
+    $sql = "SELECT D.DOCID, D.TITLE, R.DTIME, C.POSITION, B.LNAME, B.LLOCATION, R.RESUMBER
             FROM DOCUMENT D, RESERVES R, COPY C, BRANCH B
             WHERE D.DOCID = C.DOCID AND C.DOCID = R.DOCID AND R.LIBID = C.LIBID AND C.LIBID = B.LIBID 
               AND R.READERID = '$readerId' AND R.COPYNO = C.COPYNO";
@@ -128,13 +118,13 @@ include ('session.php');
             echo "<div class='card card-block search-list-item'>
                     <h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE'].
                 "</h4><p class='card-text text-muted'>reserved at ".$row['DTIME']."</p>
-                <p class='card-text'>Position: Library ".$row['LNAME']." (".$row['LLOCATION'].") ".$row['POSITION']."</p>
-                <a class='btn btn-success btn-sm'>Check Out</a>
-                <a class='btn btn-danger btn-sm'>Cancel</a>
+                <p class='card-text'>Position: ".$row['LNAME']." (".$row['LLOCATION'].") &bull; ".$row['POSITION']."</p>
+                <a class='btn btn-success btn-sm' href='checkout_reserve.php?resid=".$row['RESUMBER']."'>Check Out</a>
+                <a class='btn btn-danger btn-sm' href='cancel_reserve.php?resid=".$row['RESUMBER']."'>Cancel</a>
                 </div>";
         }
     }
-
+    $conn->close();
     ?>
     <!-- End Reserves List -->
 </div>

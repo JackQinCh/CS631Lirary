@@ -24,7 +24,7 @@ function bookDetail($id='')
     			) AND COPYNO NOT IN(
     				SELECT COPYNO
     				FROM BORROWS
-    				WHERE DOCID = '$id'
+    				WHERE DOCID = '$id' AND RDTIME IS NULL
     			)";
     $result = $conn->query($sql);
     $num_copy = 0;
@@ -116,7 +116,7 @@ function journalDetail($id='')
     			) AND COPYNO NOT IN(
     				SELECT COPYNO
     				FROM BORROWS
-    				WHERE DOCID = '$id'
+    				WHERE DOCID = '$id' AND RDTIME IS NULL
     			)";
     $result = $conn->query($sql);
     $num_copy = 0;
@@ -217,7 +217,7 @@ function proceedingDetail($id='')
     			) AND COPYNO NOT IN(
     				SELECT COPYNO
     				FROM BORROWS
-    				WHERE DOCID = '$id'
+    				WHERE DOCID = '$id' AND RDTIME IS NULL
     			)";
     $result = $conn->query($sql);
     $num_copy = 0;
@@ -334,24 +334,14 @@ function proceedingDetail($id='')
             Search</a>
         </li>
         <li class="sidebar-menu-item">
-            <a href="" class="sidebar-menu-button">
-            <i class="sidebar-menu-icon material-icons">shopping_cart</i>
-            Checkout</a>
-        </li>
-        <li class="sidebar-menu-item">
-            <a href="" class="sidebar-menu-button">
-            <i class="sidebar-menu-icon material-icons">assignment_return</i>
-            Return</a>
-        </li>
-        <li class="sidebar-menu-item">
             <a href="reader_reserves.php" class="sidebar-menu-button">
             <i class="sidebar-menu-icon material-icons">lock</i>
-            Reserve</a>
+            Reserved</a>
         </li>
         <li class="sidebar-menu-item">
-            <a href="" class="sidebar-menu-button">
+            <a href="reader_borrowed.php" class="sidebar-menu-button">
             <i class="sidebar-menu-icon material-icons">check_circle</i>
-            Borrow</a>
+            Borrowed</a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">

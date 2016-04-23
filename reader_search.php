@@ -62,52 +62,42 @@ switch ($searchBy) {
     <ul class="sidebar-menu">
         <li class="sidebar-menu-item active">
             <a href="reader.php" class="sidebar-menu-button">
-                <i class="sidebar-menu-icon material-icons">search</i>
-                Search</a>
+            <i class="sidebar-menu-icon material-icons">search</i>
+            Search</a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
-                <i class="sidebar-menu-icon material-icons">shopping_cart</i>
-                Checkout</a>
+            <i class="sidebar-menu-icon material-icons">lock</i>
+            Reserved</a>
         </li>
         <li class="sidebar-menu-item">
-            <a href="" class="sidebar-menu-button">
-                <i class="sidebar-menu-icon material-icons">assignment_return</i>
-                Return</a>
-        </li>
-        <li class="sidebar-menu-item">
-            <a href="" class="sidebar-menu-button">
-                <i class="sidebar-menu-icon material-icons">lock</i>
-                Reserve</a>
-        </li>
-        <li class="sidebar-menu-item">
-            <a href="" class="sidebar-menu-button">
+            <a href="reader_borrowed.php" class="sidebar-menu-button">
             <i class="sidebar-menu-icon material-icons">check_circle</i>
-            Borrow</a>
+            Borrowed</a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
-                <i class="sidebar-menu-icon material-icons">monetization_on</i>
-                Fine
-                <span class="sidebar-menu-label label label-default">$20</span>
+            <i class="sidebar-menu-icon material-icons">monetization_on</i>
+            Fine
+            <span class="sidebar-menu-label label label-default">$20</span>
             </a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
-                <i class="sidebar-menu-icon material-icons">print</i>
-                Print Reverves
+            <i class="sidebar-menu-icon material-icons">print</i>
+            Print Reverves
             </a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
-                <i class="sidebar-menu-icon material-icons">description</i>
-                Print Publisher Docs
+            <i class="sidebar-menu-icon material-icons">description</i>
+            Print Publisher Docs
             </a>
         </li>
         <li class="sidebar-menu-item">
             <a href="reader_logout.php" class="sidebar-menu-button">
-                <i class="sidebar-menu-icon material-icons">power_settings_new</i>
-                Quit
+            <i class="sidebar-menu-icon material-icons">power_settings_new</i>
+            Quit
             </a>
         </li>
     </ul>

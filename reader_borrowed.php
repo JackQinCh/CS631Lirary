@@ -1,5 +1,6 @@
 <?php
-include('session.php');
+include ('session.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,58 +37,58 @@ include('session.php');
     <ul class="sidebar-menu">
         <li class="sidebar-menu-item active">
             <a class="sidebar-menu-button" href="reader_index.php">
-            <i class="sidebar-menu-icon material-icons">face</i>
-            Reader
+                <i class="sidebar-menu-icon material-icons">face</i>
+                Reader
             </a>
         </li>
         <li class="sidebar-menu-item">
             <a class="sidebar-menu-button" href="admin_index.php">
-            <i class="sidebar-menu-icon material-icons">perm_identity</i>
-            Administrator
+                <i class="sidebar-menu-icon material-icons">perm_identity</i>
+                Administrator
             </a>
         </li>
     </ul>
 
     <div class="sidebar-heading">Reader Menu</div>
     <ul class="sidebar-menu">
-        <li class="sidebar-menu-item active">
-            <a href="reader.php" class="sidebar-menu-button">
-            <i class="sidebar-menu-icon material-icons">search</i>
-            Search</a>
-        </li>
         <li class="sidebar-menu-item">
+            <a href="reader.php" class="sidebar-menu-button">
+                <i class="sidebar-menu-icon material-icons">search</i>
+                Search</a>
+        </li>
+        <li class="sidebar-menu-item active">
             <a href="reader_reserves.php" class="sidebar-menu-button">
-            <i class="sidebar-menu-icon material-icons">lock</i>
-            Reserved</a>
+                <i class="sidebar-menu-icon material-icons">lock</i>
+                Reserved</a>
         </li>
         <li class="sidebar-menu-item">
             <a href="reader_borrowed.php" class="sidebar-menu-button">
-            <i class="sidebar-menu-icon material-icons">check_circle</i>
-            Borrowed</a>
+                <i class="sidebar-menu-icon material-icons">check_circle</i>
+                Borrowed</a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
-            <i class="sidebar-menu-icon material-icons">monetization_on</i>
-            Fine
-            <span class="sidebar-menu-label label label-default">$20</span>
+                <i class="sidebar-menu-icon material-icons">monetization_on</i>
+                Fine
+                <span class="sidebar-menu-label label label-default">$20</span>
             </a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
-            <i class="sidebar-menu-icon material-icons">print</i>
-            Print Reverves
+                <i class="sidebar-menu-icon material-icons">print</i>
+                Print Reverves
             </a>
         </li>
         <li class="sidebar-menu-item">
             <a href="" class="sidebar-menu-button">
-            <i class="sidebar-menu-icon material-icons">description</i>
-            Print Publisher Docs
+                <i class="sidebar-menu-icon material-icons">description</i>
+                Print Publisher Docs
             </a>
         </li>
         <li class="sidebar-menu-item">
             <a href="reader_logout.php" class="sidebar-menu-button">
-            <i class="sidebar-menu-icon material-icons">power_settings_new</i>
-            Quit
+                <i class="sidebar-menu-icon material-icons">power_settings_new</i>
+                Quit
             </a>
         </li>
     </ul>
@@ -96,26 +97,65 @@ include('session.php');
 
 <!-- // Content -->
 <div class="container layout-content">
-    <div style="margin-top: 15rem;margin-bottom: 15rem;">
-        <form action="reader_search.php" method="get">
-        <div class="input-group">
-          <div class="input-group-btn">
-            <button id="byDropdown" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Title
-            </button>
-            <div class="dropdown-menu">
-              <button class="dropdown-item active" type="button" >Title</button>
-              <button class="dropdown-item" type="button" >ID</button>
-              <button class="dropdown-item" type="button" >Publisher</button>
-            </div>
-          </div>
 
-          <input name="search" type="text" class="form-control" aria-label="Search Document" placeholder="Search Document" onkeydown='if(event.keyCode==13){gosubmit();}'>
+    <!-- Borrowed List -->
+    <h4>Borrowed List</h4>
+    <?php
+    // Create connection
+    $conn = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    //
+    $sql = "SELECT D.DOCID, D.TITLE, B.BDTIME, B.BORNUMBER
+            FROM DOCUMENT D, BORROWS B
+            WHERE D.DOCID = B.DOCID AND B.READERID = '$readerId' AND B.RDTIME IS NULL";
 
-          <input name="by" id="searchBy" value="Title" hidden></input>
-        </div>
-        </form>
-    </div>
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0){
+        while ($row = $result->fetch_assoc()){
+            echo "<div class='card card-block search-list-item'>
+                    <h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE'].
+                "</h4><p class='card-text text-muted'>borrowed at ".$row['BDTIME']."</p>
+                <a class='btn btn-success btn-sm' href='return.php?borid=".$row['BORNUMBER']."'>Return</a>
+                </div>";
+        }
+    }else{
+        echo "<p>0 borrowed</p>";
+    }
+    $conn->close();
+
+    ?>
+    <hr>
+    <h4>History</h4>
+    <?php
+    // Create connection
+    $conn = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    //
+    $sql = "SELECT D.DOCID, D.TITLE, B.BDTIME, B.BORNUMBER, B.RDTIME
+            FROM DOCUMENT D, BORROWS B
+            WHERE D.DOCID = B.DOCID AND B.READERID = '$readerId' AND B.RDTIME IS NOT NULL";
+
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0){
+        while ($row = $result->fetch_assoc()){
+            echo "<div class='card card-block search-list-item'>
+                    <h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE'].
+                "</h4><p class='card-text text-muted'>borrowed at ".$row['BDTIME']." &bull; returned at ".$row['RDTIME']."</p>
+                </div>";
+        }
+    }else{
+        echo "<p>0 history</p>";
+    }
+    $conn->close();
+
+    ?>
+    <!-- End Reserves List -->
 </div>
 <!-- // End Content -->
 
@@ -131,17 +171,7 @@ include('session.php');
 <script type="text/javascript" src="js/site.js"></script>
 
 <script>
-function gosubmit() {
-    $('form').submit();
-}
-
-$('button.dropdown-item').click(function () {
-    $('#byDropdown').html($(this).html());
-    $('input[name="by"]').val($(this).html());
-});
 
 </script>
-
-
 </body>
 </html>
