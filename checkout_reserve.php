@@ -6,7 +6,7 @@
  * Time: 08:05
  */
 
-include ('session.php');
+include('session.php');
 
 $resID = $_GET['resid'];
 

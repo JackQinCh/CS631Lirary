@@ -10,7 +10,7 @@ include('config.php');
 session_start();
 
 if(!isset($_SESSION['readerId'])){
-    header("location: reader_index.php");
+    header("location: ../reader_index.php");
 }
 
 $readerId = $_SESSION['readerId'];
@@ -29,5 +29,5 @@ if ($result->num_rows == 1) {
     $row = $result->fetch_assoc();
     $readerName = $row['RNAME'];
 }else{
-    header("location: reader_index.php");
+    header("location: ../reader_index.php");
 }

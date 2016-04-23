@@ -6,7 +6,7 @@
  * Time: 10:48
  */
 
-include ('session.php');
+include('session.php');
 // Get Request Data
 $borID = $_GET['borid'];
 
