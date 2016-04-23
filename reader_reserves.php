@@ -129,6 +129,8 @@ include ('session.php');
                     <h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE'].
                 "</h4><p class='card-text text-muted'>reserved at ".$row['DTIME']."</p>
                 <p class='card-text'>Position: Library ".$row['LNAME']." (".$row['LLOCATION'].") ".$row['POSITION']."</p>
+                <a class='btn btn-success btn-sm'>Check Out</a>
+                <a class='btn btn-danger btn-sm'>Cancel</a>
                 </div>";
         }
     }

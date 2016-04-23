@@ -344,7 +344,7 @@ function proceedingDetail($id='')
             Return</a>
         </li>
         <li class="sidebar-menu-item">
-            <a href="" class="sidebar-menu-button">
+            <a href="reader_reserves.php" class="sidebar-menu-button">
             <i class="sidebar-menu-icon material-icons">lock</i>
             Reserve</a>
         </li>
