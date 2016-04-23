@@ -3,7 +3,7 @@
     <div class="sidebar-heading">Roles</div>
     <ul class="sidebar-menu">
         <li class="sidebar-menu-item active">
-            <a class="sidebar-menu-button" href="../reader_index.php">
+            <a class="sidebar-menu-button" href="reader_index.php">
                 <i class="sidebar-menu-icon material-icons">face</i>
                 Reader
             </a>

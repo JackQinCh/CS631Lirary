@@ -37,7 +37,8 @@ include('layout/reader_sidebar.php');
         $result = $conn->query($sql);
         if ($result->num_rows > 0){
             while ($row = $result->fetch_assoc()){
-                echo "<div class='card card-block search-list-item' onclick=window.location.href='reader_reader_detail.php?readID=".$row['READERID']."'>
+                echo "<div class='card card-block search-list-item' 
+                onclick=window.location.href='reader_reader_detail.php?readID=".$row['READERID']."&search=".$search."'>
                     <h4 class='card-title'>".$row['RNAME']."</h4>
                     <p class='card-text text-muted'>".$row['RTYPE']."</p>
                     </div>";

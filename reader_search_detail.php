@@ -291,7 +291,7 @@ include('layout/reader_sidebar.php');
 		<li class="active">Detail</li>
 	</ol>
 <!-- // End Breadcrumb -->
-    <div class="m-t-1">
+<div class="m-t-1">
 <?php 
     if (strpos($docID, 'B') !== false) {
         echo bookDetail($docID);
@@ -301,7 +301,7 @@ include('layout/reader_sidebar.php');
         echo proceedingDetail($docID);
     }
 ?>
-    </div>
+</div>
 </div>
 <!-- // End Content -->
 
