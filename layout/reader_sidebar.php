@@ -40,7 +40,7 @@
             </a>
         </li>
         <li class="sidebar-menu-item <?php echo ($page == 'PublisherDocs') ? "active" : ""; ?>">
-            <a href="" class="sidebar-menu-button">
+            <a href="reader_find_publisher.php" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">description</i>
                 Print Publisher Docs
             </a>
