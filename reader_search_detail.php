@@ -28,17 +28,18 @@ include('layout/reader_sidebar.php');
     }
     //Query Number of Remained Copies
     $sql = "SELECT COUNT(*)
-    		FROM COPY
+    		FROM COPY C
     		WHERE DOCID = '$docID' AND
-    			COPYNO NOT IN(
-    				SELECT COPYNO
-    				FROM RESERVES
-    				WHERE DOCID = '$docID'
-    			) AND COPYNO NOT IN(
-    				SELECT COPYNO
-    				FROM BORROWS
-    				WHERE DOCID = '$docID' AND RDTIME IS NULL
-    			)";
+    		    NOT EXISTS (
+    		      SELECT *
+    		      FROM RESERVES R
+    		      WHERE R.DOCID = C.DOCID AND R.COPYNO = C.COPYNO AND R.LIBID = C.LIBID
+    		    )
+    		    AND NOT EXISTS (
+    		      SELECT * 
+    		      FROM BORROWS B
+    		      WHERE B.DOCID = C.DOCID AND B.COPYNO = C.COPYNO AND B.LIBID = C.LIBID AND B.RDTIME IS NULL
+    		    )";
     $result = $conn->query($sql);
     $num_copy = 0;
     $copy_label = "<span class='label label-default searchlist-label'>0 copies</span>";
