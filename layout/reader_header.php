@@ -1,6 +1,6 @@
 <?php
 set_include_path('/api');
-include('./api/session.php');
+include('./api/session_reader.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">

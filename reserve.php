@@ -6,7 +6,7 @@
  * Time: 18:30
  */
 
-include('api/session.php');
+include('api/session_reader.php');
 // Get Request Data
 $docID = $_GET['docid'];
 $docNum = $_GET['num-copy'];
