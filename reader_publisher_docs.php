@@ -11,7 +11,7 @@ $pubID = $_GET['pubID'];
 $search = $_GET['search'];
 
 $page = 'PublisherDocs';
-include('layout/header.php');
+include('layout/reader_header.php');
 include('layout/reader_sidebar.php');
 
 // Create connection

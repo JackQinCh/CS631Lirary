@@ -11,7 +11,7 @@ switch ($searchBy) {
 }
 
 $page = 'Search';
-include('layout/header.php');
+include('layout/reader_header.php');
 include('layout/reader_sidebar.php');
 ?>
 
