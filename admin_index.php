@@ -44,7 +44,7 @@ if (isset($_GET['username']) and isset($_GET['password'])){
 <div class="container p-t-2">
     <div class="card center-block m-t-3 text-md-center" style="max-width: 30rem;">
         <div class="card-header bg-success">
-            <h1 class="card-title">Reader Login</h1>
+            <h1 class="card-title">Admin Login</h1>
         </div>
         <div class="card-block">
             <form action="" method="get">
