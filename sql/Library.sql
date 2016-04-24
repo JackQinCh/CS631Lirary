@@ -109,7 +109,7 @@ CREATE TABLE COPY (
   DOCID VARCHAR(10) NOT NULL ,
   COPYNO INT NOT NULL ,
   LIBID INT NOT NULL ,
-  POSITION CHAR(6) NOT NULL ,
+  POSITION CHAR(6) NOT NULL UNIQUE,
   PRIMARY KEY (DOCID,COPYNO,LIBID),
   CONSTRAINT COPYDOCFK
   FOREIGN KEY (DOCID) REFERENCES DOCUMENT(DOCID)
@@ -290,14 +290,21 @@ INSERT INTO BRANCH (LIBID, LNAME, LLOCATION) VALUES
   (1, 'Mike Library', 'Newark'),
   (2, 'Jone Library', 'Harrison'),
   (3, 'Jack Library', 'New York');
+
 -- Insert Copy Datas
 INSERT INTO COPY (DOCID, COPYNO, LIBID, POSITION) VALUES
   ('B1', 1, 1, '001B03'),
   ('B1', 2, 1, '002B03'),
-  ('B1', 3, 1, '003B03'),
+  ('B1', 3, 2, '003B03'),
   ('B1', 4, 1, '004B03'),
   ('B1', 5, 1, '005B03'),
   ('B1', 6, 1, '006B03'),
+  ('B1', 7, 3, '101B03'),
+  ('B1', 8, 3, '502F03'),
+  ('B1', 9, 2, '803B03'),
+  ('B1', 10, 1, '804B03'),
+  ('B1', 11, 1, '905B03'),
+  ('B1', 12, 1, '976B03'),
   ('B2', 1, 2, '001A03'),
   ('B2', 2, 2, '002A03'),
   ('B2', 3, 2, '003A03'),
@@ -312,7 +319,7 @@ INSERT INTO COPY (DOCID, COPYNO, LIBID, POSITION) VALUES
   ('B5', 4, 1, '004F03'),
   ('B5', 5, 1, '005F03'),
   ('B6', 1, 2, '001A09'),
-  ('B6', 2, 2, '002A09'),
+  ('B6', 2, 3, '002A09'),
   ('B6', 3, 2, '003A09'),
   ('B6', 4, 2, '004A09'),
   ('B6', 5, 2, '005A09'),
@@ -328,12 +335,12 @@ INSERT INTO COPY (DOCID, COPYNO, LIBID, POSITION) VALUES
   ('B9', 4, 1, '012A83'),
   ('B10', 1, 3, '013F09'),
   ('B10', 2, 3, '004E03'),
-  ('B10', 3, 3, '001E03'),
+  ('B10', 3, 2, '001E03'),
   ('B10', 4, 3, '002E03'),
   ('B11', 1, 3, '003E03'),
-  ('B11', 2, 3, '004E03'),
+  ('B11', 2, 3, '004E83'),
   ('J1', 1, 2, '001G01'),
-  ('J1', 2, 2, '002G01'),
+  ('J1', 2, 1, '002G01'),
   ('J1', 3, 2, '003G01'),
   ('J1', 4, 2, '004G01'),
   ('J2', 1, 2, '203B03'),
@@ -347,8 +354,8 @@ INSERT INTO COPY (DOCID, COPYNO, LIBID, POSITION) VALUES
   ('J4', 3, 1, '023A03'),
   ('P1', 1, 1, '024A03'),
   ('P1', 2, 1, '423A03'),
-  ('P1', 3, 1, '024A03'),
-  ('P1', 4, 1, '021B03'),
+  ('P1', 3, 1, '024A83'),
+  ('P1', 4, 3, '021B03'),
   ('P1', 5, 1, '122A03'),
   ('P1', 6, 1, '123A03'),
   ('P2', 1, 3, '004A18'),
@@ -358,14 +365,14 @@ INSERT INTO COPY (DOCID, COPYNO, LIBID, POSITION) VALUES
   ('P3', 1, 2, '064A16'),
   ('P4', 1, 3, '003A24'),
   ('P4', 2, 3, '004A23'),
-  ('P4', 3, 3, '011A20'),
+  ('P4', 3, 2, '011A20'),
   ('P4', 4, 3, '042A43'),
   ('P4', 5, 3, '103A34'),
   ('P4', 6, 3, '084A67'),
-  ('P5', 1, 3, '001A03'),
-  ('P5', 2, 3, '002A03'),
-  ('P5', 3, 3, '003A03'),
-  ('P5', 4, 3, '004A03');
+  ('P5', 1, 1, '001A93'),
+  ('P5', 2, 3, '002A93'),
+  ('P5', 3, 3, '003A93'),
+  ('P5', 4, 3, '004A93');
 -- Insert Reader Datas
 INSERT INTO READER (READERID, RTYPE, RNAME, ADDRESS) VALUES
   ('jz01', 'Student', 'Jack Qin', 'Harrison Ave., NJ');
