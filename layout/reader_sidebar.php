@@ -9,7 +9,7 @@
             </a>
         </li>
         <li class="sidebar-menu-item">
-            <a class="sidebar-menu-button" href="../admin_index.php">
+            <a class="sidebar-menu-button" href="admin_index.php">
                 <i class="sidebar-menu-icon material-icons">perm_identity</i>
                 Administrator
             </a>

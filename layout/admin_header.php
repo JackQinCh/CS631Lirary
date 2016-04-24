@@ -1,5 +1,5 @@
 <?php
-include('./api/session_reader.php');
+include('./api/session_admin.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +19,7 @@ include('./api/session_reader.php');
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <!-- My Style -->
     <link rel="stylesheet" type="text/css" href="./css/site.css">
-    
+
     <!-- jQuery first, then Bootstrap JS. -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
@@ -31,7 +31,7 @@ include('./api/session_reader.php');
 <nav class="navbar navbar-dark navbar-full bg-primary navbar-fixed-top">
     <a class="navbar-brand" href="../index.php"><i class="material-icons md-48">school</i> Library</a>
     <div class="nav navbar-nav pull-md-right">
-        <a class="nav-item nav-link active">Welcome <?php echo $readerName?></a>
+        <a class="nav-item nav-link active">administrator</a>
     </div>
 </nav>
 <!-- // End Navbar -->

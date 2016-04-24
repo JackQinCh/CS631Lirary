@@ -1,3 +1,21 @@
+<?php
+include("api/config.php");
+session_start();
+$error = "";
+// Get Request Data
+if (isset($_GET['username']) and isset($_GET['password'])){
+    $username = $_GET["username"];
+    $password = $_GET["password"];
+    if ($username != '' || $password != '' ){
+        if ($username == 'root' && $password == '0000'){
+            $_SESSION['admin'] = "admin";
+            header("location: admin.php");
+        }else{
+            $error = "Username or password is wrong! Please try again.";
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,14 +41,32 @@
 <!-- // End Navbar -->
 
 <!-- // Content -->
-<div class="container layout-content">
+<div class="container p-t-2">
+    <div class="card center-block m-t-3 text-md-center" style="max-width: 30rem;">
+        <div class="card-header bg-success">
+            <h1 class="card-title">Reader Login</h1>
+        </div>
+        <div class="card-block">
+            <form action="" method="get">
+                <div class="form-group">
+                    <input name="username" type="text" class="form-control" placeholder="Username"/>
+                </div>
+                <div class="form-group">
+                    <input name="password" type="password" class="form-control" placeholder="Password"/>
+                </div>
+                <?php
+                if ($error != ""){
+                    echo "<div class='alert alert-danger' role='alert'>
+                        <strong>Oops!</strong> $error</div>";
+                }
+                ?>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
 
-    <div class="row" style="margin-top: 10rem;">
-        <div class="col-md-4">
-            <button type="button center-block" class="btn btn-warning" onclick="window.location.href='admin_index.php'" style="width: 20rem; height: 15rem"><h1>Administrator</h1></button>
         </div>
     </div>
-
 </div>
 <!-- // End Content -->
 
