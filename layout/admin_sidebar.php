@@ -24,7 +24,7 @@
                 Search</a>
         </li>
         <li class="sidebar-menu-item <?php echo ($page == 'AddCopy') ? "active" : ""; ?>">
-            <a href="" class="sidebar-menu-button">
+            <a href="admin_add_copy.php" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">note_add</i>
                 Add Copy</a>
         </li>
