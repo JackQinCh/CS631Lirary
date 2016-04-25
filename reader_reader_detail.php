@@ -44,6 +44,7 @@ $conn->close();
         <h4 class="text-muted"><?php echo $readName ?>'s Reservations
             <button onclick="printdiv('div_print')" class="btn btn-primary btn-sm pull-md-right">
                 <i class="material-icons">print</i>
+                Print
             </button>
         </h4>
         <?php
@@ -75,20 +76,6 @@ $conn->close();
     </div>
 </div>
 <!-- // End Content -->
-
-<script language="javascript">
-    function printdiv(printpage){
-        var headstr="<html><head><title></title></head><body>";
-        var footstr="</body>";
-        var newstr=document.all.item(printpage).innerHTML;
-        var oldstr=document.body.innerHTML;
-        document.body.innerHTML=headstr+newstr+footstr;
-        window.print();
-        document.body.innerHTML=oldstr;
-        return false;
-    }
-</script>
-
 
 <?php include('layout/footer.php'); ?>
 

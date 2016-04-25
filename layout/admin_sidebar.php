@@ -29,12 +29,12 @@
                 Add Copy</a>
         </li>
         <li class="sidebar-menu-item <?php echo ($page == 'AddReader') ? "active" : ""; ?>">
-            <a href="" class="sidebar-menu-button">
+            <a href="admin_add_reader.php" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">account_circle</i>
                 Add Reader</a>
         </li>
         <li class="sidebar-menu-item <?php echo ($page == 'PrtBranchInfo') ? "active" : ""; ?>">
-            <a href="" class="sidebar-menu-button">
+            <a href="admin_branch_info.php" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">print</i>
                 Print Branch Info.
             </a>

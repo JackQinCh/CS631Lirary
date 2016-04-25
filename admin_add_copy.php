@@ -111,7 +111,7 @@ include('layout/admin_sidebar.php');
                 </div>";
     } else {
         echo "<div class='alert alert-danger' role='alert'>
-                <strong>Oops!</strong> Can not create this copy. Change information and try again.
+                <strong>Oops!</strong> You can't add this copy! Change information and try again.
             </div>";
     }
 

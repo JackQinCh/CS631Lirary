@@ -24,14 +24,14 @@ include('./api/session_admin.php');
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
     <!-- My JS -->
-    <script type="text/javascript" src="../js/site.js"></script>
+    <script type="text/javascript" src="./js/site.js"></script>
 </head>
 <body>
 <!-- // Navbar -->
 <nav class="navbar navbar-dark navbar-full bg-primary navbar-fixed-top">
     <a class="navbar-brand" href="../index.php"><i class="material-icons md-48">school</i> Library</a>
     <div class="nav navbar-nav pull-md-right">
-        <a class="nav-item nav-link active">administrator</a>
+        <a class="nav-item nav-link active">admin</a>
     </div>
 </nav>
 <!-- // End Navbar -->
