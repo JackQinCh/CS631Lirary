@@ -51,7 +51,7 @@ include('layout/admin_sidebar.php');
     //Query
     echo "<div class='card m-t-2' id='div_print'>
     <div class='card-header'>
-        <h4>$year Pop 10 Books
+        <h4>$year Top 10 Pop Books
             <button onclick='printdiv(\"div_print\");' class='btn btn-primary btn-sm pull-md-right'>
                 <i class='material-icons'>print</i>
                 Print</button>
