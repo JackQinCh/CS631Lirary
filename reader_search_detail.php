@@ -176,7 +176,7 @@ include('layout/reader_sidebar.php');
                                 <td>".$row['ENAME']."</td>
                             </tr>
                          </table>
-                         <hr style='border-width: 5px;'>
+                         <hr style='border-width: 10px;'>
                         ".$issues."
                         <div class='card-footer text-md-center'>
                             <form class='form-inline' method='get' action='reserve.php'>

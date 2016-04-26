@@ -58,7 +58,7 @@
             </a>
         </li>
         <li class="sidebar-menu-item <?php echo ($page == 'AvgFine') ? "active" : ""; ?>">
-            <a href="" class="sidebar-menu-button">
+            <a href="admin_avg_fine.php" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">monetization_on</i>
                 Average Fine
             </a>
