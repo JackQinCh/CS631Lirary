@@ -29,7 +29,7 @@ include('./api/session_reader.php');
 <body>
 <!-- // Navbar -->
 <nav class="navbar navbar-dark navbar-full bg-primary navbar-fixed-top">
-    <a class="navbar-brand" href="../index.php"><i class="material-icons md-48">school</i> Library</a>
+    <a class="navbar-brand" href="./index.php"><i class="material-icons md-48">school</i> Library</a>
     <div class="nav navbar-nav pull-md-right">
         <a class="nav-item nav-link active">Welcome <?php echo $readerName?></a>
     </div>

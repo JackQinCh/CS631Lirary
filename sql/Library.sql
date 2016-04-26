@@ -1,6 +1,3 @@
--- Create Database
--- Create Library Database
-CREATE DATABASE Library;
 -- Create Tables
 -- Create Publisher Table
 CREATE TABLE PUBLISHER(

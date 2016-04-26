@@ -14,7 +14,7 @@ include('layout/reader_sidebar.php');
 <div class="container layout-content">
 <!-- // Breadcrumb -->
 	<ol class="breadcrumb m-t-1">
-		<li><a href="<?php echo "reader_search.php?search=".$search."&by=".$searchBy ?>">Search</a></li>
+		<li><a href="<?php echo "reader.php?search=".$search."&by=".$searchBy ?>">Search</a></li>
 		<li class="active">Detail</li>
 	</ol>
 <!-- // End Breadcrumb -->
