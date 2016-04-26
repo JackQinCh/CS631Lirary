@@ -46,15 +46,15 @@
             </a>
         </li>
         <li class="sidebar-menu-item <?php echo ($page == 'TopBooks') ? "active" : ""; ?>">
-            <a href="" class="sidebar-menu-button">
+            <a href="admin_top_books.php" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">star_rate</i>
-                Top 10 Borrowed Books
+                Top 10 Books
             </a>
         </li>
         <li class="sidebar-menu-item <?php echo ($page == 'TopPopular') ? "active" : ""; ?>">
             <a href="" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">favorite</i>
-                Top 10 Popular Books
+                Top 10 Pop Books
             </a>
         </li>
         <li class="sidebar-menu-item <?php echo ($page == 'AvgFine') ? "active" : ""; ?>">
