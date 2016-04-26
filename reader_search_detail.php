@@ -78,47 +78,58 @@ include('layout/reader_sidebar.php');
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
             echo 	"<div class='card'>
-    				<div class='card-block'>
-    					<h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE'].$copy_label."</h4>
-    					<dl class='card-block dl-horizontal'>
-    					<dt class='card-text col-sm-3'>Publish Year</dt>
-    					<dd class='card-text col-sm-9'>".$row['PDATE']."</dd>
-						<dt class='card-text col-sm-3'>Publisher</dt>
-    					<dd class='card-text col-sm-9'>".$row['PUBNAME']."</dd>
-    					<dt class='card-text col-sm-3'>Publisher Location</dt>
-    					<dd class='card-text col-sm-9'>".$row['ADDRESS']."</dd>
-    					<dt class='card-text col-sm-3'>Authors</dt>
-    					<dd class='card-text col-sm-9'>".$authors."</dd>
-    					<dt class='card-text col-sm-3'>ISBN</dt>
-    					<dd class='card-text col-sm-9'>".$row['ISBN']."</dd>
-    					</dl>
-
-    					<form class='form-inline' method='get' action='reserve.php'>
+                        <div class='card-header'>
+                            <h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE'].$copy_label."</h4>
+                        </div>
+                     <table class='table'>
+                        <tr>
+                            <th>Publish Year</th>
+                            <td>".$row['PDATE']."</td>
+                        </tr>
+                        <tr>
+                            <th>Publisher</th>
+                            <td>".$row['PUBNAME']."</td>
+                        </tr>
+                        <tr>
+                            <th>Publisher Location</th>
+                            <td>".$row['ADDRESS']."</td>
+                        </tr>
+                        <tr>
+                            <th>Authors</th>
+                            <td>".$authors."</td>
+                        </tr>
+                        <tr>
+                            <th>ISBN</th>
+                            <td>".$row['ISBN']."</td>
+                        </tr>
+                     </table>
+                    <div class='card-footer text-md-center'>
+                        <form class='form-inline' method='get' action='reserve.php'>
 							<fieldset ".$submit_active.">
+							<input name='docid' value='$docID' hidden/>
+                            <button type='submit' class='btn btn-primary '>Reserve</button>
 							<div class='form-group'>
-							    <label for='num-copy'>Qty:</label>
-								<select name='num-copy' class='form-control' id='copy-list' style='max-width:40px;'>
+								<select name='num-copy' class='c-select' id='copy-list' style='max-width:200px;'>
 								".$select_count."
 								</select>
 							</div>
-								<input name='docid' value='$docID' hidden/>
-								<button type='submit' class='btn btn-primary btn-sm'>Reserve</button>
 							</fieldset>
 						</form>
-    				</div>
+                    </div>
     			</div>";
         }
 //        Journal Detail
     }elseif (strpos($docID, 'J') !== false) {
         //Query Journal Detail
-        $issues = "<h5>ISSUES:</h5><ol>";
+        $issues = "<table class='table'><thead><tr><th>#</th><th>Issue Scope</th><th>Authors</th></tr></thead>";
         $sql = "SELECT ISSUE_NO, SCOPE
     		FROM JOURNAL_ISSUE
     		WHERE DOCID = '$docID'";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
+            $i = 1;
             while($issue = $result->fetch_assoc()){
-                $issues .= "<li><strong>".$issue['SCOPE']."</strong> by ";
+                $issues .= "<tr><td>$i</td><td>".$issue['SCOPE']."</td>";
                 $sql1 = "SELECT IENAME
 	    			 FROM INV_EDITOR
 	    			 WHERE DOCID = '$docID' AND ISSUE_NO = ".$issue['ISSUE_NO'];
@@ -129,9 +140,10 @@ include('layout/reader_sidebar.php');
                         $authors .= $author['IENAME']." / ";
                     };
                 }
-                $issues .= $authors."</li>";
+                $issues .= "<td>".$authors."</td>";
+                $i ++;
             }
-            $issues .= "</ol>";
+            $issues .= "</table>";
         }
 
         $sql = "SELECT D.DOCID, D.TITLE, D.PDATE, P.PUBNAME, P.ADDRESS, J.JVOLUME, C.ENAME
@@ -142,33 +154,44 @@ include('layout/reader_sidebar.php');
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
             echo 	"<div class='card'>
-    				<div class='card-block'>
-    					<h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE'].$copy_label."</h4>
-    					<dl class='card-block dl-horizontal'>
-    					<dt class='card-text col-sm-3'>Publish Year</dt>
-    					<dd class='card-text col-sm-9'>".$row['PDATE']."</dd>
-						<dt class='card-text col-sm-3'>Publisher</dt>
-    					<dd class='card-text col-sm-9'>".$row['PUBNAME']."</dd>
-    					<dt class='card-text col-sm-3'>Publisher Location</dt>
-    					<dd class='card-text col-sm-9'>".$row['ADDRESS']."</dd>
-    					<dt class='card-text col-sm-3'>Chief Editor</dt>
-    					<dd class='card-text col-sm-9'>".$row['ENAME']."</dd>
-    					</dl>
-    					".$issues."
-    					<form class='form-inline' method='get' action='reserve.php'>
-							<fieldset ".$submit_active.">
-							<div class='form-group'>
-							    <label for='num-copy'>Qty:</label>
-								<select name='num-copy' class='form-control' id='copy-list' style='max-width:40px;'>
-								".$select_count."
-								</select>
-							</div>
-								<input name='docid' value='$docID' hidden/>
-								<button type='submit' class='btn btn-primary btn-sm'>Reserve</button>
-							</fieldset>
-						</form>
-    				</div>
-    			</div>";
+                        
+                        <div class='card-header'>
+                            <h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE'].$copy_label."</h4>
+                        </div>
+                        <table class='table'>
+                            <tr>
+                                <th>Publish Year</th>
+                                <td>".$row['PDATE']."</td>
+                            </tr>
+                            <tr>
+                                <th>Publisher</th>
+                                <td>".$row['PUBNAME']."</td>
+                            </tr>
+                            <tr>
+                                <th>Publisher Location</th>
+                                <td>".$row['ADDRESS']."</td>
+                            </tr>
+                            <tr>
+                                <th>Chief Editor</th>
+                                <td>".$row['ENAME']."</td>
+                            </tr>
+                         </table>
+                         <hr style='border-width: 5px;'>
+                        ".$issues."
+                        <div class='card-footer text-md-center'>
+                            <form class='form-inline' method='get' action='reserve.php'>
+                                <fieldset ".$submit_active.">
+                                <input name='docid' value='$docID' hidden/>
+                                <button type='submit' class='btn btn-primary '>Reserve</button>
+                                <div class='form-group'>
+                                    <select name='num-copy' class='c-select' id='copy-list' style='max-width:200px;'>
+                                    ".$select_count."
+                                    </select>
+                                </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>";
         }
 //        Proceeding
     }elseif (strpos($docID, 'P') !== false) {
@@ -180,35 +203,49 @@ include('layout/reader_sidebar.php');
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
             echo "<div class='card'>
-    				<div class='card-block'>
-    					<h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE'].$copy_label."</h4>
-						<dl class='card-block dl-horizontal'>
-    					<dt class='card-text col-sm-3'>Publish Year</dt>
-    					<dd class='card-text col-sm-9'>".$row['PDATE']."</dd>
-						<dt class='card-text col-sm-3'>Publisher</dt>
-    					<dd class='card-text col-sm-9'>".$row['PUBNAME']."</dd>
-    					<dt class='card-text col-sm-3'>Publisher Location</dt>
-    					<dd class='card-text col-sm-9'>".$row['ADDRESS']."</dd>
-    					<dt class='card-text col-sm-3'>Conference Date</dt>
-    					<dd class='card-text col-sm-9'>".$row['CDATE']."</dd>
-    					<dt class='card-text col-sm-3'>Conference Location</dt>
-    					<dd class='card-text col-sm-9'>".$row['CLOCATION']."</dd>
-    					<dt class='card-text col-sm-3'>Conference Editor</dt>
-    					<dd class='card-text col-sm-9'>".$row['CEDITOR']."</dd>
-    					</dl>
-    					<form class='form-inline' method='get' action='reserve.php'>
+                    <div class='card-header'>
+                        <h4 class='card-title'>".$row['DOCID'].": ".$row['TITLE'].$copy_label."</h4>
+                    </div>
+                    <table class='table'>
+                        <tr>
+                            <th>Publish Year</th>
+                            <td>".$row['PDATE']."</td>
+                        </tr>
+                        <tr>
+                            <th>Publisher</th>
+                            <td>".$row['PUBNAME']."</td>
+                        </tr>
+                        <tr>
+                            <th>Publisher Location</th>
+                            <td>".$row['ADDRESS']."</td>
+                        </tr>
+                        <tr>
+                            <th>Conference Date</th>
+                            <td>".$row['CDATE']."</td>
+                        </tr>
+                        <tr>
+                            <th>Conference Location</th>
+                            <td>".$row['CLOCATION']."</td>
+                        </tr>
+                        <tr>
+                            <th>Conference Editor</th>
+                            <td>".$row['CEDITOR']."</td>
+                        </tr>
+
+                     </table>
+                     <div class='card-footer text-md-center'>
+                        <form class='form-inline' method='get' action='reserve.php'>
 							<fieldset ".$submit_active.">
+							<input name='docid' value='$docID' hidden/>
+                            <button type='submit' class='btn btn-primary '>Reserve</button>
 							<div class='form-group'>
-							    <label for='num-copy'>Qty:</label>
-								<select name='num-copy' class='form-control' id='copy-list' style='max-width:40px;'>
+								<select name='num-copy' class='c-select' id='copy-list' style='max-width:200px;'>
 								".$select_count."
 								</select>
 							</div>
-								<input name='docid' value='$docID' hidden/>
-								<button type='submit' class='btn btn-primary btn-sm'>Reserve</button>
 							</fieldset>
 						</form>
-    				</div>
+                    </div>
     			</div>";
         }
     }
