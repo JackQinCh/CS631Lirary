@@ -84,30 +84,30 @@ include('layout/admin_sidebar.php');
 
     if ($result->num_rows > 0){
         echo "<table class='table'>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Doc ID</th>
-                <th>Title</th>
-                <th>Number of Borrowed</th>
-            </tr>
-        </thead>
-        <tbody>";
-        $i = 1;
-        while ($row = $result->fetch_assoc()){
-            echo "<tr>
-              <td>$i</td>
-              <td>".$row['DOCID']."</td>
-              <td>".$row['TITLE']."</td>
-              <td>".$row['COUNT(B.BORNUMBER)']."</td>
-          <tr>";
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Doc ID</th>
+                        <th>Title</th>
+                        <th>Number of Borrowed</th>
+                    </tr>
+                </thead>
+                <tbody>";
+                $i = 1;
+                while ($row = $result->fetch_assoc()){
+                    echo "<tr>
+                      <td>$i</td>
+                      <td>".$row['DOCID']."</td>
+                      <td>".$row['TITLE']."</td>
+                      <td>".$row['COUNT(B.BORNUMBER)']."</td>
+                  <tr>";
             $i ++;
         }
         echo "</tbody></table>";
     }else{
-        echo "<div class='card-footer alert-danger' role='alert'>
-    <strong>Oops!</strong> Nothing!
-</div>";
+        echo    "<div class='card-footer alert-danger' role='alert'>
+                    <strong>Oops!</strong> Nothing!
+                </div>";
     }
     echo "</div>";
     $conn->close();

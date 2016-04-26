@@ -51,8 +51,8 @@
                 Top 10 Books
             </a>
         </li>
-        <li class="sidebar-menu-item <?php echo ($page == 'TopPopular') ? "active" : ""; ?>">
-            <a href="" class="sidebar-menu-button">
+        <li class="sidebar-menu-item <?php echo ($page == 'PopBooks') ? "active" : ""; ?>">
+            <a href="admin_pop_books.php" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">favorite</i>
                 Top 10 Pop Books
             </a>
