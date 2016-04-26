@@ -40,7 +40,7 @@
             </a>
         </li>
         <li class="sidebar-menu-item <?php echo ($page == 'TopBorrowers') ? "active" : ""; ?>">
-            <a href="" class="sidebar-menu-button">
+            <a href="admin_top_borrowers.php" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">supervisor_account</i>
                 Top 10 Borrowers
             </a>
