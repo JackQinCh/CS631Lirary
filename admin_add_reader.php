@@ -65,7 +65,7 @@ include('layout/admin_sidebar.php');
     }
     //
     $sql = "INSERT INTO READER (READERID, RTYPE, RNAME, ADDRESS) VALUES 
-        ('$readerID', '$readerName', '$readerName', '$readerAddress')";
+        ('$readerID', '$readerType', '$readerName', '$readerAddress')";
 
     if ($conn->query($sql) === TRUE) {
         echo    "<div class='alert alert-success' role='alert'>
