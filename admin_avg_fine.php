@@ -51,8 +51,8 @@ include('layout/admin_sidebar.php');
             while ($row = $result->fetch_assoc()){
                 echo "<tr>
                       <td>".$row['READERID']."</td>
-                      <td>".$row['RTYPE']."</td>
                       <td>".$row['RNAME']."</td>
+                      <td>".$row['RTYPE']."</td>
                       <td>$ ".$row['AVGFINE']."</td>
                   <tr>";
             }
