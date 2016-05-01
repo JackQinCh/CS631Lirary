@@ -48,13 +48,24 @@ include('layout/reader_sidebar.php');
         $num_copy = $row['COUNT(*)'];
         $copy_label = "<span class='label label-default searchlist-label'>$num_copy copies</span>";
     }
+    $num_reserved = 0;
+    $sql = "SELECT COUNT(RESUMBER)
+            FROM RESERVES
+            WHERE READERID = '$readerId'
+            GROUP BY READERID";
+    $result = $conn->query($sql);
+    if ($result->num_rows == 1){
+        $row = $result->fetch_assoc();
+        $num_reserved = $row['COUNT(RESUMBER)'];
+    }
+    $copy_avl = min(10-$num_reserved, $num_copy);
     $select_count = '';
     $submit_active = '';
-    if ($num_copy == 0) {
+    if ($copy_avl == 0) {
         $submit_active = 'disabled';
         $select_count = '<option>0</option>';
     }
-    for ($i=1; $i <= $num_copy; $i++) {
+    for ($i=1; $i <= $copy_avl; $i++) {
         $select_count .= "<option value=$i>$i</option>";
     }
 //    Book Detail
