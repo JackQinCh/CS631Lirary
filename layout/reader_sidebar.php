@@ -7,21 +7,33 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 //
+$num_reserved = 0;
+$label_reserve = 'label-default';
 $sql = "SELECT COUNT(RESUMBER)
             FROM RESERVES
             WHERE READERID = '$readerId'
             GROUP BY READERID";
 $result = $conn->query($sql);
-$row = $result->fetch_assoc();
-$num_reserved = $row['COUNT(RESUMBER)'];
+if ($result->num_rows > 0){
+    $row = $result->fetch_assoc();
+    $num_reserved = $row['COUNT(RESUMBER)'];
+}
+if ($num_reserved >= 10)
+    $label_reserve = 'label-danger';
 //
+$num_borrowed = 0;
+$label_borrow = 'label-default';
 $sql = "SELECT COUNT(BORNUMBER)
             FROM BORROWS
             WHERE READERID = '$readerId' AND RDTIME IS NULL
             GROUP BY READERID";
 $result = $conn->query($sql);
-$row = $result->fetch_assoc();
-$num_borrowed = $row['COUNT(BORNUMBER)'];
+if ($result->num_rows > 0){
+    $row = $result->fetch_assoc();
+    $num_borrowed = $row['COUNT(BORNUMBER)'];
+}
+if ($num_borrowed >= 10)
+    $label_borrow = 'label-danger';
 ?>
 <div class="sidebar">
     <div class="sidebar-heading">Roles</div>
@@ -51,14 +63,14 @@ $num_borrowed = $row['COUNT(BORNUMBER)'];
             <a href="reader_reserves.php" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">lock</i>
                 Reserved
-                <span class="sidebar-menu-label label label-default"><?php echo $num_reserved?></span>
+                <span class="sidebar-menu-label label <?php echo $label_reserve ?>"><?php echo $num_reserved?></span>
             </a>
         </li>
         <li class="sidebar-menu-item <?php echo ($page == 'Borrowed') ? "active" : ""; ?>">
             <a href="reader_borrowed.php" class="sidebar-menu-button">
                 <i class="sidebar-menu-icon material-icons">check_circle</i>
                 Borrowed
-                <span class="sidebar-menu-label label label-default"><?php echo $num_borrowed?></span>
+                <span class="sidebar-menu-label label <?php echo $label_borrow ?>"><?php echo $num_borrowed?></span>
             </a>
         </li>
         <li class="sidebar-menu-item <?php echo ($page == 'Reservations') ? "active" : ""; ?>">
