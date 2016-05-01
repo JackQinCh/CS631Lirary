@@ -35,12 +35,14 @@ include('layout/admin_sidebar.php');
                     FROM BORROWS B, READER R
                     WHERE B.READERID = R.READERID
                   ) AS FINE_TABLE
-                GROUP BY READERID;";
+                GROUP BY READERID
+                ORDER BY AVGFINE DESC;";
         $result = $conn->query($sql);
         if ($result->num_rows > 0){
             echo "<table class='table'>
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>ID</th>
                         <th>Name</th>
                         <th>Type</th>
@@ -48,13 +50,16 @@ include('layout/admin_sidebar.php');
                     </tr>
                 </thead>
                 <tbody>";
+            $i = 1;
             while ($row = $result->fetch_assoc()){
                 echo "<tr>
+                      <td>$i</td>
                       <td>".$row['READERID']."</td>
                       <td>".$row['RNAME']."</td>
                       <td>".$row['RTYPE']."</td>
                       <td>$ ".$row['AVGFINE']."</td>
                   <tr>";
+                $i ++;
             }
             echo "</tbody></table>";
         }else{
