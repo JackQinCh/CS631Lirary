@@ -156,6 +156,62 @@ CREATE TABLE BORROWS (
   FOREIGN KEY (DOCID,COPYNO,LIBID) REFERENCES COPY(DOCID,COPYNO,LIBID)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
+-- Create Function
+-- Compute Fine Function
+DROP FUNCTION IF EXISTS COMPUTE_FINE;
+CREATE FUNCTION COMPUTE_FINE(borrowID INT) RETURNS DECIMAL(5,2)
+  BEGIN
+    SELECT BDTIME, RDTIME INTO @btime, @rtime
+    FROM BORROWS
+    WHERE BORNUMBER = borrowID;
+    IF @rtime IS NULL THEN
+      SET @rtime = NOW();
+    END IF;
+
+    SET @days = datediff(@rtime, @btime);
+    IF @days > 20 THEN
+      SET @fine = (@days-20) * 0.2;
+    ELSE
+      SET @fine = 0;
+    END IF;
+
+    RETURN (@fine);
+  END;
+-- Compute Remain Days Function
+DROP FUNCTION IF EXISTS COMPUTE_REMAIN_DAYS;
+CREATE FUNCTION COMPUTE_REMAIN_DAYS(borrowID INT) RETURNS INT
+  BEGIN
+    SELECT BDTIME, RDTIME INTO @btime, @rtime
+    FROM BORROWS
+    WHERE BORNUMBER = borrowID;
+    IF @rtime IS NOT NULL THEN
+      SET @day = 0;
+    ELSE
+      SET @day = datediff(NOW(), @btime);
+      IF @day > 20 THEN
+        SET @day = 0;
+      ELSE
+        SET @day = 20 - @day;
+      END IF;
+    END IF;
+    RETURN (@day);
+  END;
+-- Create Event
+-- Open Event
+SET GLOBAL event_scheduler = 1;
+-- Delete Reserve at 6:00 p.m. Event
+DROP EVENT IF EXISTS CANCEL_RESERVE_EVERYDAY;
+CREATE EVENT CANCEL_RESERVE_EVERYDAY
+  ON SCHEDULE
+    EVERY 1 DAY
+    STARTS '2016-05-01 18:00:00' ON COMPLETION PRESERVE ENABLE
+DO
+  DELETE FROM RESERVES;
+-- Create Constrain
+-- Check Number of Reservations for Each Reader
+
+-- Check Number of Borrows for Each Reader
+
 -- Insert Datas
 -- Insert Publisher Datas
 INSERT INTO PUBLISHER
@@ -375,4 +431,4 @@ INSERT INTO COPY (DOCID, COPYNO, LIBID, POSITION) VALUES
   ('P5', 3, 3, '004A93');
 -- Insert Reader Datas
 INSERT INTO READER (READERID, RTYPE, RNAME, ADDRESS) VALUES
-  ('jz01', 'Student', 'Jack Qin', 'Harrison Ave., NJ');
+  ('jz01', 'student', 'Jack Qin', 'Harrison Ave., NJ');

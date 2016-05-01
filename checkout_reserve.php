@@ -27,14 +27,13 @@ if ($result->num_rows == 1){
             ('".$row['READERID']."', '".$row['DOCID']."', ".$row['COPYNO'].", ".$row['LIBID'].", NOW())";
     if ($conn->query($sql) === TRUE) {
         echo "Insert successfully";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-    $sql = "DELETE FROM RESERVES 
+        $sql = "DELETE FROM RESERVES 
         WHERE RESUMBER = $resID";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Delete successfully";
+        if ($conn->query($sql) === TRUE) {
+            echo "Delete successfully";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
