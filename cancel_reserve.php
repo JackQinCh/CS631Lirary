@@ -6,7 +6,7 @@
  * Time: 07:58
  */
 
-include('session_reader.php');
+include('./api/session_reader.php');
 
 $resID = $_GET['resid'];
 
