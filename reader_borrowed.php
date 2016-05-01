@@ -20,7 +20,7 @@ include('layout/reader_sidebar.php');
     //
     $sql = "SELECT D.DOCID, D.TITLE, B.BDTIME, B.BORNUMBER, COMPUTE_REMAIN_DAYS(B.BORNUMBER) AS DAYS, COMPUTE_FINE(B.BORNUMBER) AS FINE
             FROM DOCUMENT D, BORROWS B
-            WHERE D.DOCID = B.DOCID AND B.READERID = 'jz01' AND B.RDTIME IS NULL;";
+            WHERE D.DOCID = B.DOCID AND B.READERID = '$readerId' AND B.RDTIME IS NULL;";
 
     $result = $conn->query($sql);
     if ($result->num_rows > 0){
